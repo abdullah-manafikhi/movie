@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+*{
+  background-color: white;
+}
+
+.my-container{
+  overflow-x: scroll;
+  width: auto; 
+  /* border: solid 1px black;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px; */
+}
+
+.my-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.my-container::-webkit-scrollbar-thumb {
+  position: fixed;
+  top: 0rem ;
+  background-color: rgb(90, 90, 90);
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+/* this is for hiding the textare scroll bar */
+.scroll::-webkit-scrollbar {
+  display: none;
+  }
+
+  /* this is for making all the textareas equally visualised */
+.scroll{
+  margin:auto !important;
+  padding-top: 1rem/* 4px */;
+  padding-left: 0.5rem/* 8px */;
+  padding-right: 0.5rem/* 8px */;
+  font-size: 0.75rem/* 12px */;
+  line-height: 1rem/* 16px */;
+  line-height: 1.2;
+}
+
+.table-grid{
+  display: grid;
+  width: fit-content;
+  grid-template-columns: auto;
+  gap: 20px;
+  margin: 0px auto;
+}
+
+#tableTitle{
+  background-color: rgb(49, 47, 47);
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  box-shadow: 10px 10px 13px -7px rgba(0,0,0,0.54);
+  -webkit-box-shadow: 10px 10px 13px -7px rgba(0,0,0,0.54);
+  -moz-box-shadow: 10px 10px 13px -7px rgba(0,0,0,0.54);
+}
+
+#tableTitle span {
+  background-color: rgb(49, 47, 47) ;
+}
+
+.row-grid{
+  display: grid;
+  grid-template-columns: 60px 100px repeat(3, 200px) 100px ;
+  grid-auto-rows: minmax(60px, auto);
+  gap: 16px;
+  justify-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  margin: auto 4px ;
+  /* box-shadow: 2px 0px 17px 0px rgba(0,0,0,0.38);
+  -webkit-box-shadow: 2px 0px 17px 0px rgba(0,0,0,0.38);
+  -moz-box-shadow: 2px 0px 17px 0px rgba(0,0,0,0.38);   */
+  
+}
+
+.test{
+  pointer-events: none;
+}
+
+.shadow-xl {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}

@@ -1,0 +1,61 @@
+
+
+
+
+/* .table-div {
+    width: 80%;
+    max-width: 1200px;
+    overflow-x: auto;
+    padding: 4rem 0;
+    margin: 0 auto;
+  }
+
+.table{
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
+
+
+  .table thead th,
+.table td {
+  border: 2px solid #ccc;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.table tr td,
+.table tr th {
+  page-break-inside: avoid;
+}
+
+.table thead {
+  background-color: #1C3D5A;
+  color: #FFFFFF;
+}
+
+.scenes {
+    color: #000000;
+    text-align: center;
+    border: 1px solid #666;
+    background-color: #F2F2F2;
+    border-radius: .5em;
+    padding: 10px;
+    cursor: move;
+  }
+  
+  .camera-int {
+    background-color: #A5D6A7;
+  }
+  
+  .camera-ext {
+    background-color: #FFCC99;
+  }
+  
+  .camera-ext-int {
+    background-color: #FFDB58;
+  } */
