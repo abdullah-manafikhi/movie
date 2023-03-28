@@ -1,6 +1,7 @@
 
 Abdullah
     - Adding new line 
+    - Sorting
     - fixing css bugs
     - install gitkracen
 
