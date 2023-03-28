@@ -6,7 +6,14 @@ export const initialLines = [
         summary: "summary sfasfsa ",
         location: "location",
         page_length: 25,
-        day: "test"
+    },
+    {
+        id:20,
+        note: "note1"
+    },
+    {
+        id:10,
+        day: "Day1"
     },
     {
         id: 2,
@@ -15,7 +22,6 @@ export const initialLines = [
         summary: "summary sfasfsa sdf asf asdfasfasdfasdfasdfas f asf saf ",
         location: "location",
         page_length: 25,
-        day: "test"
     },
     {
         id: 3,
@@ -24,7 +30,6 @@ export const initialLines = [
         summary: "summary sfasfsa ",
         location: "location",
         page_length: 25,
-        day: "test"
     },
     {
         id: 4,
@@ -33,7 +38,14 @@ export const initialLines = [
         summary: "summary sfasfsa ",
         location: "location",
         page_length: 25,
-        day: "test"
+    },
+    {
+        id:21,
+        note: "note2"
+    },
+    {
+        id:11,
+        day: "Day2"
     },
     {
         id: 5,
@@ -42,7 +54,6 @@ export const initialLines = [
         summary: "summary sfasfsa ",
         location: "location",
         page_length: 25,
-        day: "test"
     },
     {
         id: 6,
@@ -51,7 +62,14 @@ export const initialLines = [
         summary: "summary sfasfsa ",
         location: "location",
         page_length: 25,
-        day: "test"
+    },
+    {
+        id:22,
+        note: "note3"
+    },
+    {
+        id:12,
+        day: "Day3"
     },
     {
         id: 7,
@@ -60,7 +78,6 @@ export const initialLines = [
         summary: "summary sfasfsa saf asfwef asdf asfasesdfafsd asdf asdfa sd ",
         location: "location",
         page_length: 25,
-        day: "test"
     },
     {
         id: 8,
@@ -69,7 +86,6 @@ export const initialLines = [
         summary: "summary sfasfsa ",
         location: "location",
         page_length: 25,
-        day: "test"
     },
 
 ]

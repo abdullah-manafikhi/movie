@@ -46,14 +46,13 @@ function DndUI() {
         useSensor(TouchSensor, {
             activationConstraint: {
                 delay: 100,
-                tolerance: 8,
+                tolerance: 1,
             },
         }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         }),
     );
-
     // This functioon is for changing the consequence of the dnd table
     function handleDragEnd(event) {
         // returning the cursor as grab when the drag ends
@@ -70,7 +69,6 @@ function DndUI() {
             }
         }
     }
-    console.log(items)
 
     return (
         <>
