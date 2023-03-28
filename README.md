@@ -1,6 +1,14 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+<<<<<<< HEAD
 ## Hello This is the first push from Abdullah's branch
+=======
+
+# 1112
+# 1123
+
+
+>>>>>>> e2a4cafca71ea41e3928fe9a64ea7d3ee1be9489
 ## Getting Started
 First, run the development server:
 
