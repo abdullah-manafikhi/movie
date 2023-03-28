@@ -2,6 +2,7 @@
 Abdullah
     - Adding new line 
     - fixing css bugs
+    - install gitkracen
 
 
 
