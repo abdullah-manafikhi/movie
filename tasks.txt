@@ -8,10 +8,7 @@ Abdullah
 
 
 Nour
-    - watch git & github course on youtube
-    - On edit clicked change the edit btn and the trash btn to tick and cross
     - fix
+    - On edit clicked change the edit btn and the trash btn to tick and cross
+    - watch git & github course on youtube
     - adding animation icon 
-
-
-hala
