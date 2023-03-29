@@ -48,17 +48,19 @@ function SortableItem(props) {
         trgt.style.height = "auto";
         trgt.style.height = trgt.scrollHeight + "px";
     }
+    
+// day row starts
 
     if (props.line.day) {
-        return (
-            <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
+    return (
+        <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                 <div title="Hold to Drag!" className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full noprint m-auto flex justify-evenly'>
+                    <span className='w-full noprintdplay m-auto flex justify-evenly'>
                         <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                         <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
                     </span>
                     <div className='m-auto w-full  flex justify-center'>
-                    <span className='m-auto w-full '>
+                    <span className='m-auto text-center w-full '>
                         {formData.day}
                     </span>
                     </div>
@@ -80,11 +82,12 @@ function SortableItem(props) {
             </div>
         )
     }
+    // day row ends
     else if (props.line.note) {
         return (
             <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                 <div title="Hold to Drag!" className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full m-auto flex justify-evenly'>
+                    <span className='w-full m-auto flex noprintdplay justify-evenly'>
                         <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                         <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
                     </span>
@@ -109,11 +112,13 @@ function SortableItem(props) {
             </div>
         )
     }
+    // note row ends
+    // scene row starts
     else {
         return (
             <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                 <div title="Hold to Drag!" className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full m-auto flex justify-evenly'>
+                    <span className='w-full m-auto flex noprintdplay justify-evenly'>
                         <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                         <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
                     </span>
@@ -122,34 +127,34 @@ function SortableItem(props) {
                             onChange={e => onChange(e)}
                             type="text" placeholder="" defaultValue={formData.scene} ref={firstInputRef}
                             className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
+                            />
                     </span>
                     <span className='my-auto'>
                         <textarea
                             onChange={e => onChange(e)}
                             type="text" placeholder="" defaultValue={formData.camera}
                             className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
+                            />
                     </span>
                     <span className='my-auto'>
                         <textarea
                             onChange={e => onChange(e)}
                             type="text" placeholder="" defaultValue={formData.summary}
                             className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
+                            />
                     </span>
                     <span className='my-auto'>
                         <textarea
                             onChange={e => onChange(e)}
                             type="text" placeholder="" defaultValue={formData.location}
                             className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
+                            />
                     </span>
                     <span className='my-auto'>
                         <textarea
                             type="text" placeholder="" defaultValue={formData.page_length}
                             className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
+                            />
                     </span>
                 </div>
                 <div className="w-full flex flex-auto justify-end">
@@ -169,7 +174,8 @@ function SortableItem(props) {
             </div>
         )
     }
-
+    
+    // scene row ends
 }
 
 export default SortableItem
