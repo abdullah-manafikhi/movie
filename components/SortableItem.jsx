@@ -4,15 +4,26 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { BiTrash, BiEditAlt } from 'react-icons/bi'
 import TableContext from './context/TableContext.js';
+import dynamic from 'next/dynamic'
+import { PopOver } from '../components/PopOver'
+
 
 function SortableItem(props) {
     // this is the table line "row" data
     const [formData, setFormData] = useState(props.line)
-    // getting the table from the context
-    const { cursor } = useContext(TableContext)
+
     const [inputDisabled, setInputDisabled] = useState(true)
+    // This is for the selected color
+    const [color, setColor] = useState("#f4cda1");
+
+    // getting the table from the context
+    const { cursor, daysMap } = useContext(TableContext)
     // This for focusing on the scene input when updateing start
     const firstInputRef = useRef()
+
+    // const { HexXolorPicker } = dynamic(() => import("react-colorful"), {
+    //     ssr: false,
+    // })
 
     const { attributes, listeners, setNodeRef, transform, transition, } = useSortable({
         id: props.id, transition: {
@@ -26,7 +37,7 @@ function SortableItem(props) {
         transition,
     };
 
-    // this is functionnis reponsible for alowing the user to edit the row, focusing on the first input and highliting its text and 
+    // This function is reponsible for allowing the user to edit the row, focusing on the first input and highliting its text 
     const onEditClick = (e) => {
         console.log(e.currentTarget)
         setInputDisabled(prevState => {
@@ -49,125 +60,156 @@ function SortableItem(props) {
         trgt.style.height = trgt.scrollHeight + "px";
     }
 
-    if (props.line.day) {
-        return (
-            <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                <div title="Hold to Drag!" className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full m-auto flex justify-evenly'>
-                        <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
-                        <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
-                    </span>
-                    <span className='my-auto'>
-                        {formData.day}
-                    </span>
-                </div>
-                <div className="w-full flex flex-auto justify-end">
-                    <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
-                </div>
-                {/* this is the module that will display the delete confirm when clicking on the delete button*/}
-                <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-                <div className="modal">
-                    <div className="modal-box">
-                        <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
-                        <div className="modal-action">
-                            <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
-                            <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-    else if (props.line.note) {
-        return (
-            <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                <div title="Hold to Drag!" className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full m-auto flex justify-evenly'>
-                        <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
-                        <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
-                    </span>
-                    <span className='my-auto'>
-                        {formData.note}
-                    </span>
-                </div>
-                <div className="w-full flex flex-auto justify-end">
-                    <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
-                </div>
-                {/* this is the module that will display the delete confirm when clicking on the delete button*/}
-                <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-                <div className="modal">
-                    <div className="modal-box">
-                        <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
-                        <div className="modal-action">
-                            <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
-                            <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
+    // const test = () => {
+    //     let l = 0;
+    //     let r = daysMap.length
+    //     while(l+1 < r){
+
+    //         let mid = Math.floor((l+r)/2)
+    //         if(mid >= props.index){
+    //             r=mid
+    //         }
+    //         else{
+    //             l=mid
+    //         }
+    //     }
+    //     console.log(l,r)
+    // }
+
+        
+
+    // test()
+    const style2 = {}
+
+    // console.log(props.index, daysMap)
+
+    if (daysMap === null) {
+        return (<h2>Loading...</h2>)
     }
     else {
-        return (
-            <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                <div title="Hold to Drag!" className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full m-auto flex justify-evenly'>
-                        <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
-                        <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
-                    </span>
-                    <span className='my-auto'>
-                        <textarea
-                            onChange={e => onChange(e)}
-                            type="text" placeholder="" defaultValue={formData.scene} ref={firstInputRef}
-                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
-                    </span>
-                    <span className='my-auto'>
-                        <textarea
-                            onChange={e => onChange(e)}
-                            type="text" placeholder="" defaultValue={formData.camera}
-                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
-                    </span>
-                    <span className='my-auto'>
-                        <textarea
-                            onChange={e => onChange(e)}
-                            type="text" placeholder="" defaultValue={formData.summary}
-                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
-                    </span>
-                    <span className='my-auto'>
-                        <textarea
-                            onChange={e => onChange(e)}
-                            type="text" placeholder="" defaultValue={formData.location}
-                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
-                    </span>
-                    <span className='my-auto'>
-                        <textarea
-                            type="text" placeholder="" defaultValue={formData.page_length}
-                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                        />
-                    </span>
-                </div>
-                <div className="w-full flex flex-auto justify-end">
-                    <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
-                </div>
-                {/* this is the module that will display the delete confirm when clicking on the delete button*/}
-                <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-                <div className="modal">
-                    <div className="modal-box">
-                        <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
-                        <div className="modal-action">
-                            <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
-                            <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
+        if (props.line.day) {
+            return (
+                <div>
+                    <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
+                        <div title="Hold to Drag!" style={style2} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
+                            <span className='w-full m-auto flex justify-evenly'>
+                                <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
+                                <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                            </span>
+                            <span className='my-auto'>
+                                {formData.day}
+                            </span>
+                            <PopOver color={color} onChange={setColor} />
+                        </div>
+                        <div className="w-full flex flex-auto justify-end">
+                            <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
+                        </div>
+                        {/* this is the module that will display the delete confirm when clicking on the delete button*/}
+                        <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+                        <div className="modal">
+                            <div className="modal-box">
+                                <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
+                                <div className="modal-action">
+                                    <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
+                                    <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        )
-    }
+            )
+        }
+        else if (props.line.note) {
+            return (
+                <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
+                    <div title="Hold to Drag!" className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
+                        <span className='w-full m-auto flex justify-evenly'>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
+                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                        </span>
+                        <span className='my-auto'>
+                            {formData.note}
+                        </span>
+                    </div>
+                    <div className="w-full flex flex-auto justify-end">
+                        <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
+                    </div>
+                    {/* this is the module that will display the delete confirm when clicking on the delete button*/}
+                    <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+                    <div className="modal">
+                        <div className="modal-box">
+                            <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
+                            <div className="modal-action">
+                                <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
+                                <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
+                    <div title="Hold to Drag!" className={`row-grid touch-manipulation z-1 ${cursor}`}>
+                        <span className='w-full m-auto flex justify-evenly'>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
+                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                        </span>
+                        <span className='my-auto'>
+                            <textarea
+                                onChange={e => onChange(e)}
+                                type="text" placeholder="" defaultValue={formData.scene} ref={firstInputRef}
+                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                            />
+                        </span>
+                        <span className='my-auto'>
+                            <textarea
+                                onChange={e => onChange(e)}
+                                type="text" placeholder="" defaultValue={formData.camera}
+                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                            />
+                        </span>
+                        <span className='my-auto'>
+                            <textarea
+                                onChange={e => onChange(e)}
+                                type="text" placeholder="" defaultValue={formData.summary}
+                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                            />
+                        </span>
+                        <span className='my-auto'>
+                            <textarea
+                                onChange={e => onChange(e)}
+                                type="text" placeholder="" defaultValue={formData.location}
+                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                            />
+                        </span>
+                        <span className='my-auto'>
+                            <textarea
+                                type="text" placeholder="" defaultValue={formData.page_length}
+                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                            />
+                        </span>
+                    </div>
+                    <div className="w-full flex flex-auto justify-end">
+                        <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
+                    </div>
+                    {/* this is the module that will display the delete confirm when clicking on the delete button*/}
+                    <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+                    <div className="modal">
+                        <div className="modal-box">
+                            <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
+                            <div className="modal-action">
+                                <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
+                                <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
 
+    }
 }
 
 export default SortableItem

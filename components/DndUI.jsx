@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useContext } from "react";
 import { DndContext, DragOverlay, closestCenter, MouseSensor, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import SortableItem from './SortableItem';
 import { initialLines } from "../assets/data"
 import TableContext from './context/TableContext.js';
+import randomColor from 'randomcolor'
 
 function DndUI() {
 
@@ -14,28 +15,37 @@ function DndUI() {
     const [activeId, setActiveId] = useState(null);
 
     // This state is for changing the cursor from grab to grabbing whe the drag starts and ends
-    const { setCursor } = useContext(TableContext);
+    const { setCursor, setDaysMap, setColors } = useContext(TableContext);
 
-    // const sensors = useSensors(
-    //     // This sensor allows the user use the dnd functionality with touch screens mouses and pens
-    //     useSensor(PointerSensor, { activationConstraint : {
-    //         delay: 100,
-    //         tolerance: 5,
-    //       }}),
+    // console.log(randomColor({ luminosity: 'light', count: items.length }))
 
+    const randClr = () => {
+        setColors(randomColor({ luminosity: 'light', count: 27 }))
+    }
 
-    //     // I have declined this sensor because its was conflicting with the textarea
-    //     //  (Enter and spae bars where reserved for the dnd functionality) 
+    useMemo(() => randClr(), [])
 
-    //         // useSensor(KeyboardSensor, {
-    //         //     coordinateGetter: sortableKeyboardCoordinates,
-    //         //     activationConstraint : {
-    //         //         delay: 200,
-    //         //         tolerance: 5,
-    //         //       }
-    //         // })
-    // )
+    useEffect(() => {
+        globalThis.days = []
+        items.forEach((item, index) => {
+            if (Object.hasOwn(item, "day")) {
+               days.push({ ...item, index: index })
+            }
+        })
+        setDaysMap(days)
+        console.log(days)
+    }, [items])
 
+    // const test = () => {
+    //     globalThis.daysMap = new Map()
+    //     items.forEach((item, index) => {
+    //         if (item.day) {
+    //             daysMap.set(`${index}`, { ...item, color: randClr[index] })
+    //         }
+    //     })
+    //     console.log(daysMap)
+    //     setDaysMap(daysMap)
+    // }
 
     const sensors = useSensors(
         useSensor(MouseSensor, {
@@ -55,6 +65,7 @@ function DndUI() {
     );
     // This functioon is for changing the consequence of the dnd table
     function handleDragEnd(event) {
+        console.log("dragend")
         // returning the cursor as grab when the drag ends
         setCursor("cursor-grab")
         const { active, over } = event;
@@ -64,12 +75,24 @@ function DndUI() {
                 setItems((items) => {
                     const oldIndex = items.findIndex(({ id }) => id === active.id)
                     const newIndex = items.findIndex(({ id }) => id === over.id)
+                    console.log((oldIndex), newIndex)
+                    // sorting(oldIndex, newIndex)
+                    // const x = daysMap.get(`${oldIndex}`)
+                    // if (x !== undefined) {
+                    //     daysMap.set(newIndex, x)
+                    //     daysMap.delete(oldIndex)
+                    // }
                     return arrayMove(items, oldIndex, newIndex);
                 });
             }
         }
     }
 
+
+
+
+    // console.log(daysMap.keys())
+    console.log(items)
     return (
         <>
             {/* <Table /> */}
@@ -87,7 +110,7 @@ function DndUI() {
                     items={items}
                     strategy={verticalListSortingStrategy}
                 >
-                    {items.map((line, index) => <SortableItem key={line.id} id={line.id} line={line} value={`Item ${line.id}`} />)}
+                    {items.map((line, index) => <SortableItem key={line.id} index={index} id={line.id} line={line} value={`Item ${line.id}`} />)}
                 </SortableContext>
                 {/* <DragOverlay>
                     {activeId ? (
