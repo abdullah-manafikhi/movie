@@ -9,6 +9,7 @@ Abdullah
 
 Nour
     - fix
+    - change the grid  on the mobile device
     - On edit clicked change the edit btn and the trash btn to tick and cross
     - watch git & github course on youtube
     - adding animation icon 
