@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+.onprint {
+  display: none;
+}
+
+@media print {
+  .noprintdplay {
+    display :none;
+  }
+  .noprintv {
+   visibility: hidden;
+  }
+  
+  .onprint {
+    display: unset;
+  }
+}
+
 
 html,
 body {
@@ -10,6 +27,11 @@ body {
   background-color: white;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+*{
+  --print-color-adjust: exact !important;
+  --webkit-print-color-adjust: exact  !important; 
 }
 
 .my-container{
@@ -71,15 +93,18 @@ body {
   -moz-box-shadow: 10px 10px 13px -7px rgba(0,0,0,0.54);
 }
 
+
 #tableTitle span {
   background-color: rgb(49, 47, 47) ;
 }
 
 .row-grid{
   display: grid;
-  grid-template-columns: 60px 100px repeat(3, 200px) 100px ;
+  align-items: center;
+  grid-template-columns: 60px 1fr repeat(3, 2fr) 1fr ;
+  /* on edit dont forget to edit the print media  */
   grid-auto-rows: minmax(60px, auto);
-  gap: 16px;
+  /* gap: 3px; */
   justify-items: center;
   background-color: rgba(255, 255, 255, 0.8);
   border-bottom: solid 1px rgba(0, 0, 0, 0.2);
@@ -88,12 +113,25 @@ body {
 
 .row-grid-day{
   display: grid;
-  grid-template-columns: 60px auto 30px;
-  grid-auto-rows: minmax(60px, auto, 30px);
+  grid-template-columns: 60px 1fr 30px;
+  grid-auto-rows: minmax(60px, auto);
   justify-items: center;
   background-color: rgba(255, 255, 255, 0.8);
   border-bottom: solid 1px rgba(0, 0, 0, 0.2);
   margin: auto ;
+}
+
+
+@media print {
+  .row-grid {
+    grid-template-columns:  1fr repeat(3, 2fr) 1fr ;
+    align-items: center;
+    /* grid-template-columns: 100px repeat(3, 200px) 100px ; */
+  }
+  .row-grid-day{
+    grid-template-columns:1fr ;
+  }
+
 }
 
 .row-grid-note{
@@ -119,27 +157,6 @@ body {
 
 /*=========== color picker ============*/
 
-/* .react-colorful {
-  height: 240px;
-}
-
-.react-colorful__interactive{
-  background-color: blue;
-}
-
-.react-colorful__saturation {
-  border-radius: 4px 4px 0 0;
-}
-.react-colorful__hue {
-  height: 40px;
-  border-radius: 0 0 4px 4px;
-}
-.react-colorful__hue-pointer {
-  width: 12px;
-  height: inherit;
-  border-radius: 0;
-} */
-
 .picker {
   position: relative;
 }
@@ -159,4 +176,41 @@ body {
   left: -11rem;
   border-radius: 9px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+/* Start responcive */  
+/* @media (max-width: 768px) {
+
+} */
+
+
+ /* ≥576px	 */
+ @media (max-width: 576px){
+  #tableTitle span {
+    font-size: 12px;
+  }  
+  .row-grid{
+    /* grid-template-columns: 60px 1fr repeat(3, 2fr) 1fr ; */
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-areas: 'tools  tools . ' ' tools tools . ';
+    /* on edit dont forget to edit the print media  */
+    grid-auto-rows: minmax(60px, auto);
+
+
+  }
+  .tools{
+    grid-area: 'tools';
+
+  }
+  /* .row-grid */
+  
+
+}
+ /* <400px */
+ @media (max-width: 400px)
+{   
+  #tableTitle span {
+    font-size: 12px; 
+    font-weight: 600;
+  }  
+
 }

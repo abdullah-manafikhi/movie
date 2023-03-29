@@ -3,13 +3,17 @@ Abdullah
     - Adding new line 
     - Sorting
     - fixing css bugs
+    - install gitkracen
 
 
 
 Nour
-    - watch git & github course on youtube
-    - On edit clicked change the edit btn and the trash btn to tick and cross
     - fix
+    - change the grid  on the mobile device
+    - On edit clicked change the edit btn and the trash btn to tick and cross
+    - watch git & github course on youtube
     - adding animation icon 
 
 
+working on day css 
+adding a grid area to the sense cheldren 

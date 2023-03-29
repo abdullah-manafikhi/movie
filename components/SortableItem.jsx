@@ -60,6 +60,8 @@ function SortableItem(props) {
         trgt.style.height = trgt.scrollHeight + "px";
     }
 
+    // day row starts
+
     // const test = () => {
     //     let l = 0;
     //     let r = daysMap.length
@@ -76,7 +78,7 @@ function SortableItem(props) {
     //     console.log(l,r)
     // }
 
-        
+
 
     // test()
     const style2 = {}
@@ -85,8 +87,13 @@ function SortableItem(props) {
 
     if (daysMap === null) {
         return (<h2>Loading...</h2>)
+
+
     }
+    // note row ends
+    // scene row starts
     else {
+
         if (props.line.day) {
             return (
                 <div>
@@ -210,6 +217,7 @@ function SortableItem(props) {
         }
 
     }
+
 }
 
 export default SortableItem
