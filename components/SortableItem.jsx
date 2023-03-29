@@ -118,7 +118,7 @@ function SortableItem(props) {
         return (
             <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                 <div title="Hold to Drag!" className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full m-auto flex noprintdplay justify-evenly'>
+                    <span className='tools w-full m-auto flex noprintdplay justify-evenly'>
                         <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                         <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
                     </span>
