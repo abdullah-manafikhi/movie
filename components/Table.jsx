@@ -10,12 +10,12 @@ function Table() {
                 <div className='table-grid'>
                     {/* This is the main row where the columns names sits */}
                     <div id="tableTitle" className="row-grid">
-                        <span className='text-white noprintdplay text-lg font-bold mx-8'></span>
-                        <span className='text-white text-lg font-bold m-auto'>Scene No.</span>
-                        <span className='text-white text-lg font-bold m-auto'>Camera</span>
-                        <span className='text-white text-lg font-bold m-auto'>Summary</span>
-                        <span className='text-white text-lg font-bold m-auto'>Location</span>
-                        <span className='text-white text-lg font-bold mx-8'>Scene Length</span>
+                        <span className='text-white noprintdplay text-sm sm:text-lg font-bold mx-8'></span>
+                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Scene No.</span>
+                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Camera</span>
+                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Summary</span>
+                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Location</span>
+                        <span className='text-white text-sm sm:text-lg font-bold mx-8'>Scene Length</span>
                     </div>
                     {/* This component is for the rest of the table that has the DnD functionality */}
                     <DndUI />
