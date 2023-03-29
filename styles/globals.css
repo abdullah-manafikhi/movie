@@ -100,7 +100,7 @@ body {
 
 .row-grid{
   display: grid;
-  grid-template-columns: 60px 100px repeat(3, 200px) 100px ;
+  grid-template-columns: 60px 1fr repeat(3, 2fr) 1fr ;
   /* on edit dont forget to edit the print media  */
   grid-auto-rows: minmax(60px, auto);
   /* gap: 3px; */
@@ -122,7 +122,8 @@ body {
 
 @media print {
   .row-grid {
-    grid-template-columns: 100px repeat(3, 200px) 100px ;
+    grid-template-columns:  1fr repeat(3, 2fr) 1fr ;
+    /* grid-template-columns: 100px repeat(3, 200px) 100px ; */
   }
   .row-grid-day{
     grid-template-columns:1fr ;
