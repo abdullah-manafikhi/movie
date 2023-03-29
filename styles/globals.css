@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+.onprint {
+  display: none;
+}
+
+@media print {
+  .noprint {
+    display :none;
+  }
+  
+  .onprint {
+    display: unset;
+  }
+}
+
 
 html,
 body {
@@ -13,6 +27,8 @@ body {
 
 *{
   background-color: white;
+  print-color-adjust: exact !important;
+  --webkit-print-color-adjust: exact  !important; 
 }
 
 .my-container{
