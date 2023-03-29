@@ -53,13 +53,15 @@ function SortableItem(props) {
         return (
             <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                 <div title="Hold to Drag!" className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full m-auto flex justify-evenly'>
+                    <span className='w-full noprint m-auto flex justify-evenly'>
                         <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                         <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
                     </span>
-                    <span className='my-auto'>
+                    <div className='m-auto w-full  flex justify-center'>
+                    <span className='m-auto w-full '>
                         {formData.day}
                     </span>
+                    </div>
                 </div>
                 <div className="w-full flex flex-auto justify-end">
                     <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
