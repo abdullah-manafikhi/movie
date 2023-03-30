@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useContext } from "react";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { BiTrash, BiEditAlt } from 'react-icons/bi'
+import { BiTrash, BiEditAlt ,BiCross ,BiTv } from 'react-icons/bi'
 import TableContext from './context/TableContext.js';
 import { PopOver } from '../components/PopOver'
 
@@ -104,9 +104,9 @@ function SortableItem(props) {
                 <div>
                     <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                         <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
-                            <span className='w-full m-auto flex justify-evenly'>
-                                <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
-                                <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                            <span className='w-full noprintdplay m-auto flex justify-evenly'>
+                                <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}>{inputDisabled === true ?  <BiEditAlt/>: <BiCross />}</button> 
+                                <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}>{inputDisabled === true ?  <BiTrash/>: <BiTv />}</label>
                             </span>
                             <span className='my-auto'>
                                 {formData.day}
@@ -136,9 +136,9 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                        <span className='w-full m-auto flex justify-evenly'>
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
-                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                        <span className='w-full noprintdplay m-auto flex justify-evenly'>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}>{inputDisabled === true ?  <BiEditAlt/>: <BiCross />}</button> 
+                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}>{inputDisabled === true ?  <BiTrash/>: <BiTv />}</label>
                         </span>
                         <span className='my-auto'>
                             {formData.note}
@@ -166,9 +166,9 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                        <span className='w-full m-auto flex justify-evenly'>
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
-                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                        <span className='w-full noprintdplay m-auto flex justify-evenly'>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}>{inputDisabled === true ?  <BiEditAlt/>: <BiCross />}</button> 
+                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}>{inputDisabled === true ?  <BiTrash/>: <BiTv />}</label>
                         </span>
                         <span className='my-auto'>
                             <textarea
