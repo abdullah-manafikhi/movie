@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
 import useClickOutside from "./useClickOutside";
+import {BiColorFill} from 'react-icons/bi';
 
 export const PopOver = ({ color, onChange }) => {
   const popover = useRef();
@@ -16,7 +17,9 @@ export const PopOver = ({ color, onChange }) => {
         className="swatch"
         style={{ backgroundColor: color }}
         onClick={() => toggle(true)}
-      />
+      >
+        <BiColorFill className='text-xl' />
+      </div>
 
       {isOpen && (
         <div className="popover" ref={popover}>

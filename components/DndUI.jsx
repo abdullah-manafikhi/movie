@@ -12,40 +12,35 @@ function DndUI() {
     // This state is for storeing the data
     const [items, setItems] = useState(initialLines);
 
-    const [activeId, setActiveId] = useState(null);
+    // cursor state is for changing the cursor when dragging 
+    const { setCursor, daysMap, setDaysMap } = useContext(TableContext);
+    // const [activeId, setActiveId] = useState(null);
 
-    // This state is for changing the cursor from grab to grabbing whe the drag starts and ends
-    const { setCursor, setDaysMap, setColors } = useContext(TableContext);
-
-    // console.log(randomColor({ luminosity: 'light', count: items.length }))
-
-    const randClr = () => {
-        setColors(randomColor({ luminosity: 'light', count: 27 }))
-    }
-
-    useMemo(() => randClr(), [])
 
     useEffect(() => {
-        globalThis.days = []
+        // initializing global variable "days"
+        globalThis.days = {
+            colors: {},
+            data: []
+        }
         items.forEach((item, index) => {
+            // This condition is for checking if the item is a day item
             if (Object.hasOwn(item, "day")) {
-               days.push({ ...item, index: index })
+                (days.data).push({ ...item, index: index })
+                // This condition is to check if the user had changed a day color 
+                if (localStorage.getItem("colors") && (JSON.parse(localStorage.getItem("colors")))[index] !== "white") {
+                    days.colors = { ...days.colors, [item.id]: (JSON.parse(localStorage.getItem("colors")))[item.id] }
+                }
+                else {
+                    days.colors = { ...days.colors, [item.id]: "white" }
+                }
             }
         })
+        // We are stringifying days object because we cannot save object in localStorge
+        localStorage.setItem("colors", JSON.stringify(days.colors))
         setDaysMap(days)
-        console.log(days)
     }, [items])
 
-    // const test = () => {
-    //     globalThis.daysMap = new Map()
-    //     items.forEach((item, index) => {
-    //         if (item.day) {
-    //             daysMap.set(`${index}`, { ...item, color: randClr[index] })
-    //         }
-    //     })
-    //     console.log(daysMap)
-    //     setDaysMap(daysMap)
-    // }
 
     const sensors = useSensors(
         useSensor(MouseSensor, {
@@ -55,7 +50,7 @@ function DndUI() {
         }),
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 100,
+                delay: 300,
                 tolerance: 1,
             },
         }),
@@ -122,6 +117,16 @@ function DndUI() {
     )
 }
 
+// Generating random colors functionality
+
+// console.log(randomColor({ luminosity: 'light', count: items.length }))
+
+// const randClr = () => {
+//     setColors(randomColor({ luminosity: 'light', count: items.length }))
+// }
+
+
+// useMemo(() => randClr(), [items])
 
 
 export default DndUI

@@ -1,10 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useContext } from "react";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { BiTrash, BiEditAlt } from 'react-icons/bi'
 import TableContext from './context/TableContext.js';
-import dynamic from 'next/dynamic'
 import { PopOver } from '../components/PopOver'
 
 
@@ -13,17 +12,13 @@ function SortableItem(props) {
     const [formData, setFormData] = useState(props.line)
 
     const [inputDisabled, setInputDisabled] = useState(true)
-    // This is for the selected color
-    const [color, setColor] = useState("#f4cda1");
+
+    const [style3, setStyle3] = useState({ backgroundColor: "" })
 
     // getting the table from the context
-    const { cursor, daysMap } = useContext(TableContext)
+    const { cursor, daysMap, setDaysMap } = useContext(TableContext)
     // This for focusing on the scene input when updateing start
     const firstInputRef = useRef()
-
-    // const { HexXolorPicker } = dynamic(() => import("react-colorful"), {
-    //     ssr: false,
-    // })
 
     const { attributes, listeners, setNodeRef, transform, transition, } = useSortable({
         id: props.id, transition: {
@@ -60,45 +55,55 @@ function SortableItem(props) {
         trgt.style.height = trgt.scrollHeight + "px";
     }
 
-    // day row starts
+    useEffect(() => {
+        if (daysMap !== null) {
+            const LsColors = JSON.parse(localStorage.getItem("colors"))
+            for (let i = 0; i < daysMap.data.length; ++i) {
+                if (props.index <= daysMap.data[i].index) {
+                    setStyle3(prevState => (
+                        {
+                            ...prevState,
+                            backgroundColor: daysMap.colors[daysMap.data[i].id] === "white" ? LsColors[daysMap.data[i].id] : daysMap.colors[daysMap.data[i].id]
+                        }
+                    ))
+                    break;
+                }
+            }
+            if (Object.hasOwn(formData, "day")) {
+                setStyle3(prevState => (
+                    {
+                        ...prevState,
+                        backgroundColor: daysMap.colors[formData.id] === "white" ? LsColors[formData.id] : daysMap.colors[formData.id]
+                    }
+                ))
+            }
+        }
+    }, [daysMap])
 
-    // const test = () => {
-    //     let l = 0;
-    //     let r = daysMap.length
-    //     while(l+1 < r){
 
-    //         let mid = Math.floor((l+r)/2)
-    //         if(mid >= props.index){
-    //             r=mid
-    //         }
-    //         else{
-    //             l=mid
-    //         }
-    //     }
-    //     console.log(l,r)
-    // }
+    const onChangeColor = (clr) => {
+        console.log(props.id, clr)
+        setDaysMap(prevState => {
+            localStorage.setItem("colors", JSON.stringify({ ...prevState.colors, [formData.id]: clr }))
+            return {
+                data: prevState.data,
+                colors: { ...prevState.colors, [formData.id]: clr }
+            }
+        })
+    }
 
-
-
-    // test()
-    const style2 = {}
-
-    // console.log(props.index, daysMap)
 
     if (daysMap === null) {
         return (<h2>Loading...</h2>)
-
-
     }
-    // note row ends
-    // scene row starts
-    else {
 
+    else {
+        // ========== DAYS LINES ===========
         if (props.line.day) {
             return (
                 <div>
                     <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                        <div title="Hold to Drag!" style={style2} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
+                        <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
                             <span className='w-full m-auto flex justify-evenly'>
                                 <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                                 <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
@@ -106,7 +111,7 @@ function SortableItem(props) {
                             <span className='my-auto'>
                                 {formData.day}
                             </span>
-                            <PopOver color={color} onChange={setColor} />
+                            <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} />
                         </div>
                         <div className="w-full flex flex-auto justify-end">
                             <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
@@ -126,10 +131,11 @@ function SortableItem(props) {
                 </div>
             )
         }
+        // ========== NOTES LINES ===========
         else if (props.line.note) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                    <div title="Hold to Drag!" className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
+                    <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
                         <span className='w-full m-auto flex justify-evenly'>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                             <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
@@ -155,10 +161,11 @@ function SortableItem(props) {
                 </div>
             )
         }
+        // =========== SCENE LINES ===========
         else {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                    <div title="Hold to Drag!" className={`row-grid touch-manipulation z-1 ${cursor}`}>
+                    <div title="Hold to Drag!" style={style3} className={`row-grid touch-manipulation z-1 ${cursor}`}>
                         <span className='w-full m-auto flex justify-evenly'>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
                             <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
