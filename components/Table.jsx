@@ -37,7 +37,7 @@ function Table() {
                 <div className='table-grid'>
                     {/* This is the main row where the columns names sits */}
                     <div id="tableTitle" className="row-grid">
-                        <span className='text-white noprintdplay text-sm sm:text-lg font-bold mx-8'></span>
+                        <span className='text-white noprintdplay text-sm sm:text-lg font-bold mx-8'>tools</span>
                         <span className='text-white text-sm sm:text-lg font-bold m-auto'>Scene No.</span>
                         <span className='text-white text-sm sm:text-lg font-bold m-auto'>Camera</span>
                         <span className='text-white text-sm sm:text-lg font-bold m-auto'>Summary</span>
