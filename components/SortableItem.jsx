@@ -5,6 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { BiTrash, BiEditAlt } from 'react-icons/bi'
 import TableContext from './context/TableContext.js';
 import { PopOver } from '../components/PopOver'
+import AddLine from './AddLine.jsx';
 
 
 function SortableItem(props) {
@@ -16,7 +17,7 @@ function SortableItem(props) {
     const [style3, setStyle3] = useState({ backgroundColor: "" })
 
     // getting the table from the context
-    const { cursor, daysMap, setDaysMap } = useContext(TableContext)
+    const { cursor, daysMap, setDaysMap, isAdding } = useContext(TableContext)
     // This for focusing on the scene input when updateing start
     const firstInputRef = useRef()
 
@@ -55,20 +56,52 @@ function SortableItem(props) {
         trgt.style.height = trgt.scrollHeight + "px";
     }
 
+
+    // for (let i = 0; i < daysMap.data.length; ++i) {
+    //     if (props.index <= daysMap.data[i].index) {
+    //         setStyle3(prevState => (
+    //             {
+    //                 ...prevState,
+    //                 backgroundColor: daysMap.colors[daysMap.data[i].id] === "white" ? LsColors[daysMap.data[i].id] : daysMap.colors[daysMap.data[i].id]
+    //             }
+    //         ))
+    //         break;
+    //     }
+    // }
+
     useEffect(() => {
         if (daysMap !== null) {
+            console.log(daysMap.data)
             const LsColors = JSON.parse(localStorage.getItem("colors"))
-            for (let i = 0; i < daysMap.data.length; ++i) {
-                if (props.index <= daysMap.data[i].index) {
-                    setStyle3(prevState => (
-                        {
-                            ...prevState,
-                            backgroundColor: daysMap.colors[daysMap.data[i].id] === "white" ? LsColors[daysMap.data[i].id] : daysMap.colors[daysMap.data[i].id]
-                        }
-                    ))
-                    break;
+            let l = -1
+            let r = daysMap.data.length - 1
+            let mid = 0
+            console.log(props.index)
+
+            // =====================================
+            // *********** BINARY SEARCH ************
+            // ======================================
+
+            // This loop determines the line colors useing dpending on the day line color using binary search
+            while (l + 1 < r) {
+                mid = Math.floor((l + r) / 2)
+                if (props.index <= daysMap.data[mid].index) {
+                    r = mid
+                }
+                else if (props.index >= daysMap.data[mid].index) {
+                    l = mid
                 }
             }
+
+            setStyle3(prevState => (
+                {
+                    ...prevState,
+                    backgroundColor: daysMap.colors[daysMap.data[r].id] === "white" ? LsColors[daysMap.data[r].id] : daysMap.colors[daysMap.data[r].id]
+                }
+            ))
+
+            console.log(l, r)
+
             if (Object.hasOwn(formData, "day")) {
                 setStyle3(prevState => (
                     {
@@ -101,7 +134,6 @@ function SortableItem(props) {
         // ========== DAYS LINES ===========
         if (props.line.day) {
             return (
-                <div>
                     <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                         <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
                             <span className='w-full m-auto flex justify-evenly'>
@@ -127,8 +159,8 @@ function SortableItem(props) {
                                 </div>
                             </div>
                         </div>
+                        {isAdding ? (<AddLine />) : ""}
                     </div>
-                </div>
             )
         }
         // ========== NOTES LINES ===========
@@ -158,6 +190,7 @@ function SortableItem(props) {
                             </div>
                         </div>
                     </div>
+                    {isAdding ? (<AddLine />) : ""}
                 </div>
             )
         }
@@ -219,6 +252,7 @@ function SortableItem(props) {
                             </div>
                         </div>
                     </div>
+                    {isAdding ? (<AddLine />) : ""}
                 </div>
             )
         }

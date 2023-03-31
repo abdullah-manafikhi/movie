@@ -83,11 +83,6 @@ function DndUI() {
         }
     }
 
-
-
-
-    // console.log(daysMap.keys())
-    console.log(items)
     return (
         <>
             {/* <Table /> */}

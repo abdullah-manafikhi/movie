@@ -1,0 +1,224 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2023-03-31T01:01:25.061Z",
+    "__export_source": "insomnia.desktop.app:v2023.1.0",
+    "resources": [
+        {
+            "_id": "req_b475319d18e743c293367ac199f737f2",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680224219846,
+            "created": 1680070691159,
+            "url": "{{url}}/api/stripboards/2",
+            "name": "Create Stripboard",
+            "description": "",
+            "method": "GET",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "id": "pair_ad492f5eb3134da49d47aefcd229f144",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1680070691159,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "wrk_88707f46ce4648f4aed85f735319faec",
+            "parentId": null,
+            "modified": 1680224442636,
+            "created": 1680070691153,
+            "name": "Stripboards",
+            "description": "",
+            "scope": "design",
+            "_type": "workspace"
+        },
+        {
+            "_id": "req_135f43caf4d8479897815392a1f60cf8",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680224272328,
+            "created": 1680224212515,
+            "url": "{{url}}/api/stripboards/2",
+            "name": "Modify Stripboard",
+            "description": "",
+            "method": "PUT",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"name\": \"BBB\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "id": "pair_ad492f5eb3134da49d47aefcd229f144",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1680070691134,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_b715f68475fd407cad962768353a1a88",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680224294361,
+            "created": 1680224283582,
+            "url": "{{url}}/api/stripboards/2",
+            "name": "Delete Stripboard",
+            "description": "",
+            "method": "DELETE",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "id": "pair_ad492f5eb3134da49d47aefcd229f144",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1680070691121.5,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_fd089154d9c94a3e8ac8201cd752abe6",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680224022303,
+            "created": 1680224022303,
+            "url": "{{url}}/api/stripboards",
+            "name": "Get Stripboard",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"table_content\": \"[{},{},{}]\",\n\t\"user_id\": 1,\n\t\"project_id\": 1,\n\t\"name\": \"BBB Quiet on the Western Front\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "id": "pair_ad492f5eb3134da49d47aefcd229f144",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1680070691109,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "env_75fc80882c7ce4e60a0d86fd237d66ffed9ec5ff",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680070737118,
+            "created": 1680070691156,
+            "name": "Base Environment",
+            "data": {
+                "url": "127.0.0.1:5000"
+            },
+            "dataPropertyOrder": {
+                "&": [
+                    "url"
+                ]
+            },
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1680070691156,
+            "_type": "environment"
+        },
+        {
+            "_id": "jar_75fc80882c7ce4e60a0d86fd237d66ffed9ec5ff",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680070816648,
+            "created": 1680070691157,
+            "name": "Default Jar",
+            "cookies": [
+                {
+                    "key": "session",
+                    "value": "eyJfZnJlc2giOmZhbHNlfQ.ZCPYoA.Cutlgesg5WA1-8ZYRw4OVCFr9U4",
+                    "domain": "127.0.0.1",
+                    "path": "/",
+                    "httpOnly": true,
+                    "hostOnly": true,
+                    "creation": "2023-03-29T06:20:16.648Z",
+                    "lastAccessed": "2023-03-29T06:20:16.648Z",
+                    "id": "9989560837315452"
+                }
+            ],
+            "_type": "cookie_jar"
+        },
+        {
+            "_id": "spc_3ece3b3399c04484ab49e2d2fd90975b",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680224442628,
+            "created": 1680070691154,
+            "fileName": "Stripboards",
+            "contents": "",
+            "contentType": "yaml",
+            "_type": "api_spec"
+        },
+        {
+            "_id": "uts_b6635599caac444aa00323fa75472459",
+            "parentId": "wrk_88707f46ce4648f4aed85f735319faec",
+            "modified": 1680070691159,
+            "created": 1680070691159,
+            "name": "Example Test Suite",
+            "_type": "unit_test_suite"
+        }
+    ]
+}
