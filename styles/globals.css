@@ -1,4 +1,4 @@
-@tailwind base;
+  @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -27,6 +27,7 @@ body {
   background-color: white;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    box-sizing: content-box;
 }
 
 *{
@@ -78,6 +79,7 @@ body {
   width: fit-content;
   grid-template-columns: auto;
   margin: 0px auto;
+  padding: 0 15px;
 }
 
 #tableTitle{
@@ -204,6 +206,7 @@ body {
 }
 @media print {
   .row-grid {
+    margin: max(10px,100px);
     grid-template-columns:  1fr repeat(3, 2fr) 1fr ;
     align-items: center;
     /* grid-template-columns: 100px repeat(3, 200px) 100px ; */
