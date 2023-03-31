@@ -4,6 +4,7 @@ Abdullah
     - Sorting
     - fixing css bugs
     - install gitkracen
+    - bug : // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
 
 
 

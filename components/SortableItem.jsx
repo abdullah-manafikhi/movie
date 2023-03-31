@@ -32,13 +32,28 @@ function SortableItem(props) {
         transition,
     };
 
+    // functions start here
+    // This function is reponsible for allowing the user to save the edits that he/she made is on the row 
+    const saveIconHundler = (e)=> {
+        console.log("save me pls im :" ,e.currentTarget)
+    }
+    const cancelIconHundler = (e)=> {
+        console.log("cancel me pls im :" ,e.currentTarget)
+        setInputDisabled(  prevState => { 
+            console.log (prevState) 
+            return true
+        })
+
+
+    }
+
     // This function is reponsible for allowing the user to edit the row, focusing on the first input and highliting its text 
     const onEditClick = (e) => {
         console.log(e.currentTarget)
         setInputDisabled(prevState => {
             if (prevState) {
                 setTimeout(() => {
-                    firstInputRef.current.focus();
+                    firstInputRef.current.focus(); // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
                     firstInputRef.current.setSelectionRange(0, firstInputRef.current.value.length);
                     console.log("focused");
                 }, 100);
@@ -137,9 +152,16 @@ function SortableItem(props) {
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
                         <span className='w-full noprintdplay m-auto flex justify-evenly'>
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}>{inputDisabled === true ?  <BiEditAlt/>: <BiCross />}</button> 
-                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}>{inputDisabled === true ?  <BiTrash/>: <BiTv />}</label>
-                        </span>
+                        {inputDisabled === true ?  
+                        <>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
+                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
+                        </>: 
+                        <>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
+                        </>}
+                        </span> 
                         <span className='my-auto'>
                             {formData.note}
                         </span>
