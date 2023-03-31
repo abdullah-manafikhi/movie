@@ -1,4 +1,4 @@
-@tailwind base;
+  @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -27,11 +27,12 @@ body {
   background-color: white;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    box-sizing: content-box;
 }
 
 *{
-  --print-color-adjust: exact !important;
-  --webkit-print-color-adjust: exact  !important; 
+  print-color-adjust: exact !important;
+  -webkit-print-color-adjust: exact  !important; 
 }
 
 .my-container{
@@ -78,6 +79,7 @@ body {
   width: fit-content;
   grid-template-columns: auto;
   margin: 0px auto;
+  padding: 0 15px;
 }
 
 #tableTitle{
@@ -119,19 +121,6 @@ body {
   background-color: rgba(255, 255, 255, 0.8);
   border-bottom: solid 1px rgba(0, 0, 0, 0.2);
   margin: auto ;
-}
-
-
-@media print {
-  .row-grid {
-    grid-template-columns:  1fr repeat(3, 2fr) 1fr ;
-    align-items: center;
-    /* grid-template-columns: 100px repeat(3, 200px) 100px ; */
-  }
-  .row-grid-day{
-    grid-template-columns:1fr ;
-  }
-
 }
 
 .row-grid-note{
@@ -182,12 +171,12 @@ body {
 }
 /* Start responcive */  
 /* @media (max-width: 768px) {
-
+  
 } */
 
 
- /* ≥576px	 */
- @media (max-width: 576px){
+/* ≥576px	 */
+@media (max-width: 576px){
   #tableTitle span {
     font-size: 12px;
   }  
@@ -196,24 +185,36 @@ body {
     grid-template-columns: 1fr 1fr 1fr ;
     grid-template-areas: 'tools  tools . ' ' tools tools . ';
     /* on edit dont forget to edit the print media  */
-    grid-auto-rows: minmax(60px, auto);
-
-
+    grid-auto-rows: minmax(60px, auto); 
   }
   .tools{
     grid-area: 'tools';
-
+    
   }
   /* .row-grid */
   
-
+  
 }
- /* <400px */
- @media (max-width: 400px)
+/* <400px */
+@media (max-width: 400px)
 {   
   #tableTitle span {
     font-size: 12px; 
     font-weight: 600;
   }  
-
+  
+}
+@media print {
+  .row-grid {
+    margin: max(10px,100px);
+    grid-template-columns:  1fr repeat(3, 2fr) 1fr ;
+    align-items: center;
+    /* grid-template-columns: 100px repeat(3, 200px) 100px ; */
+  }
+  .row-grid-day{
+    grid-template-columns:1fr ;
+  }
+  .row-grid{
+    grid-template-areas: unset;
+    }
 }
