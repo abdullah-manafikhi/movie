@@ -40,6 +40,7 @@ function SortableItemForPrint(props) {
     const onChange = (e) => {
         const trgt = e.currentTarget
         trgt.style.height = "auto";
+
         trgt.style.height = trgt.scrollHeight + "px";
     }
 

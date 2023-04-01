@@ -209,7 +209,6 @@ function SortableItem(props) {
                         {inputDisabled === true ?  
                         <>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
-                            <span className='btn-xs text-2xl mx-2 mb-2'>+</span>
                             <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
                         </>: 
                         <>  
