@@ -8,7 +8,7 @@
 
 @media print {
   .noprintdplay {
-    display :none;
+    visibility: hidden; 
   }
   .noprintv {
    visibility: hidden;
@@ -206,15 +206,36 @@ body {
 }
 @media print {
   .row-grid {
-    margin: max(10px,100px);
-    grid-template-columns:  1fr repeat(3, 2fr) 1fr ;
+    margin: 0;
+    grid-template-columns:  0 1fr repeat(3, 2fr) 1fr ;
     align-items: center;
     /* grid-template-columns: 100px repeat(3, 200px) 100px ; */
   }
   .row-grid-day{
-    grid-template-columns:1fr ;
+    grid-template-columns:0 1fr  ;
   }
   .row-grid{
     grid-template-areas: unset;
-    }
+  }
+}
+
+.printpage  .row-grid{
+  padding: 0  0 0 15px ;
+  grid-template-columns: 1fr repeat(3, 2fr) 1fr ;
+  /* on edit dont forget to edit the print media  */
+  grid-auto-rows: minmax(60px, auto);
+  /* gap: 3px; */
+  justify-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+  margin: auto 4px ;
+}
+.printpage .row-grid-day {
+  display: grid;
+  grid-template-columns: 1fr ;
+  grid-auto-rows: minmax(60px, auto);
+  justify-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+  margin: auto 4px;
 }
