@@ -47,15 +47,15 @@ function SortableItem(props) {
         })
 
     }
+    
     const cancelIconHundler = (e)=> {
         console.log("cancel me pls im :" ,e.currentTarget)
         setInputDisabled(  prevState => { 
             console.log (prevState) 
             return true
         })
-
-
     }
+
     const addNewNoteHundler = () => { 
         setInputDisabled(  prevState => { 
             console.log (prevState) 
@@ -205,9 +205,11 @@ function SortableItem(props) {
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
                         <span className='w-auto noprintdplay m-auto flex justify-evenly'>
+                        {/* inputDisable ?  *** ENOUGH *** */}
                         {inputDisabled === true ?  
                         <>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
+                            <span className='btn-xs text-2xl mx-2 mb-2'>+</span>
                             <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
                         </>: 
                         <>  
