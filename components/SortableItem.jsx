@@ -100,7 +100,7 @@ function SortableItem(props) {
     const styleSummary = useRef()
     // const firstInputRef = useRef()
     // firstInputRef
-    console.log(styleSummary)
+    // console.log(styleSummary)
     useEffect(() => {
         // styleSummary.current.height = styleSummary.current..scrollHeight + "px";
         // const trgt = d

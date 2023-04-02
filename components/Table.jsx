@@ -18,18 +18,7 @@ function Table() {
     return (
         <div className={``}>
             {/* <button id="export-btn">Export to PDF</button> */}
-            <div className="noprintdplay w-1/2 mx-auto p-4 flex justify-evenly">
-                {!adding.isAdding ? (
-                    <button onClick={() => setIsAdding(prevState => !prevState)} className="btn h-fit">
-                        Add Line <span className='font-bold text-2xl mx-2 mb-1'>+</span>
-                    </button>
-                )
-                    : (
-                        <button onClick={() => setIsAdding(prevState => !prevState)} className="btn btn-sm h-fit">
-                         Done   <span className='text-xs lowercase ml-4 mb-1 font-semibold'>x</span>
-                        </button>
-                    )
-                }
+            <div className="noprintdplay w-1/2 mx-auto p-4 flex justify-evenly">    
                 {!adding.isAdding ? (
                     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
                         <Link href="/print"> save</Link>
@@ -38,9 +27,9 @@ function Table() {
             </div>
             {/* <button id="export-btn">Export to PDF</button> */}
             <div className="noprintdplay mx-auto p-4 fixed bottom-16 right-1 opacity-100 z-50 grid justify-items-end">
-                <button onClick={() => setAdding(prevState => ({...prevState, isAdding: !prevState.isAdding}))} className={`btn ${adding.isAdding ? "btn-error" : "btn-success"} h-16 w-16 relative rounded-full`}>
+                <button onClick={() => setAdding(prevState => ({ ...prevState, isAdding: !prevState.isAdding }))} className={`btn ${adding.isAdding ? "btn-error" : "btn-success"} h-16 w-16 relative rounded-full`}>
                     <span className={`font-normal ${adding.isAdding ? "text-2xl mb-1" : "text-5xl mb-2"} text-2xl rounded-full h-fit w-fit text-white`}>
-                        {adding.isAdding  ? "x" : "+"}
+                        {adding.isAdding ? "x" : "+"}
                     </span>
                 </button>
             </div>
