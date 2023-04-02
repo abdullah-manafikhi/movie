@@ -100,7 +100,6 @@ function SortableItem(props) {
             const trgt =  [...document.querySelectorAll("textarea")]
             trgt.forEach(element => {
                 console.log(element)
-            
                 element.style.height = "auto";
                 element.style.height = trgt.scrollHeight + "px";
             });
@@ -181,7 +180,7 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                         <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
-                        <span className='w-auto noprintdplay m-auto flex justify-evenly'>
+                        <span className=' w-auto noprintdplay m-auto flex justify-evenly'>
                         {inputDisabled  ?  
                         <>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
@@ -273,8 +272,10 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-auto noprintdplay m-auto flex justify-evenly'>
-                        {inputDisabled  ?  
+                    <span className='w-full  noprintdplay m-auto flex'>
+
+                        <span>
+                            {inputDisabled  ?  
                         <>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
                             <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
@@ -283,6 +284,7 @@ function SortableItem(props) {
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
                         </>}
+                        </span>
                         </span> 
                         <span className='my-auto'>
                         {inputDisabled  ?  
