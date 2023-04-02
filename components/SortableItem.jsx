@@ -92,6 +92,24 @@ function SortableItem(props) {
         trgt.style.height = trgt.scrollHeight + "px";
     }
 
+    // const style4 = { height: this.scrollHeight +"px"}
+    // const styleScene = useRef()
+    // const styleCamera = useRef()
+    // const styleLocation = useRef()
+    // const stylePage_length = useRef()
+    const styleSummary = useRef()
+    // const firstInputRef = useRef()
+    // firstInputRef
+    console.log(styleSummary)
+    useEffect(() => {
+        // styleSummary.current.height = styleSummary.current..scrollHeight + "px";
+        // const trgt = d
+        // trgt.style.height = "auto";
+        // trgt.style.height = trgt.scrollHeight + "px";
+    
+    }, [])
+    
+
 
     // for (let i = 0; i < daysMap.data.length; ++i) {
     //     if (props.index <= daysMap.data[i].index) {
@@ -107,12 +125,10 @@ function SortableItem(props) {
 
     useEffect(() => {
         if (daysMap !== null) {
-            console.log(daysMap.data)
             const LsColors = JSON.parse(localStorage.getItem("colors"))
             let l = -1
             let r = daysMap.data.length - 1
             let mid = 0
-            console.log(props.index)
 
             // =====================================
             // *********** BINARY SEARCH ************
@@ -135,9 +151,6 @@ function SortableItem(props) {
                     backgroundColor: daysMap.colors[daysMap.data[r].id] === "white" ? LsColors[daysMap.data[r].id] : daysMap.colors[daysMap.data[r].id]
                 }
             ))
-
-            console.log(l, r)
-
             if (Object.hasOwn(formData, "day")) {
                 setStyle3(prevState => (
                     {
@@ -172,18 +185,26 @@ function SortableItem(props) {
             return (
                     <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                         <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
-                            <span className='w-full noprintdplay m-auto flex justify-evenly'>
-                                <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}>{inputDisabled === true ?  <BiEditAlt/>: <BiCross />}</button> 
-                                <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}>{inputDisabled === true ?  <BiTrash/>: <BiTv />}</label>
-                            </span>
+                        <span className='w-auto noprintdplay m-auto flex justify-evenly'>
+                        {inputDisabled  ?  
+                        <>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
+                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
+                        </>: 
+                        <>  
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
+                        </>}
+                        </span> 
                             <span className='my-auto'>
                                 {formData.day}
                             </span>
                             <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} />
                         </div>
                         <div className="w-full flex flex-auto justify-end">
-                            <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
-                        </div>
+                        <button onClick={addNewSceneHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
+                        <button onClick={addNewNoteHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new note</button>
+                    </div>
                         {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                         <input type="checkbox" id="my-modal-3" className="modal-toggle" />
                         <div className="modal">
@@ -204,9 +225,8 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                        <span className='w-auto noprintdplay m-auto flex justify-evenly'>
-                        {/* inputDisable ?  *** ENOUGH *** */}
-                        {inputDisabled === true ?  
+                    <span className='w-auto noprintdplay m-auto flex justify-evenly'>
+                        {inputDisabled  ?  
                         <>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
                             <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
@@ -244,10 +264,17 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                        <span className='w-full noprintdplay m-auto flex justify-evenly'>
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}>{inputDisabled === true ?  <BiEditAlt/>: <BiCross />}</button> 
-                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}>{inputDisabled === true ?  <BiTrash/>: <BiTv />}</label>
-                        </span>
+                    <span className='w-auto noprintdplay m-auto flex justify-evenly'>
+                        {inputDisabled  ?  
+                        <>
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
+                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
+                        </>: 
+                        <>  
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
+                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
+                        </>}
+                        </span> 
                         <span className='my-auto'>
                             <textarea
                                 onChange={e => onChange(e)}
@@ -264,8 +291,9 @@ function SortableItem(props) {
                         </span>
                         <span className='my-auto'>
                             <textarea
+                                ref={styleSummary}
                                 onChange={e => onChange(e)}
-                                type="text" placeholder="" defaultValue={formData.summary}
+                                type="text" placeholder="" defaultValue={formData.summary} 
                                 className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                             />
                         </span>
@@ -284,7 +312,8 @@ function SortableItem(props) {
                         </span>
                     </div>
                     <div className="w-full flex flex-auto justify-end">
-                        <button className={`${inputDisabled ? "hidden" : ""} btn btn-ghost w-auto`}>submit</button>
+                        <button onClick={addNewSceneHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
+                        <button onClick={addNewNoteHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new note</button>
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />

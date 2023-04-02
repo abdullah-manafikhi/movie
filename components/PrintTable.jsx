@@ -15,6 +15,11 @@ function PrintTable() {
     // const [activeId, setActiveId] = useState(null);
 
 
+    const handlePrint = () => {
+        if (typeof (window) !== "undefinded") {
+            window.print()
+        }
+    }
     useEffect(() => {
         // initializing global variable "days"
         globalThis.days = {
@@ -47,7 +52,12 @@ function PrintTable() {
         <div className="container m-auto justify-center align-center flex-col">
             <>
                 {/*  <!-- Add a button to trigger the PDF export --> */}
-                <h1 className=' text-2xl font-bold mx-auto w-fit my-8 '>Title Strip Board</h1>
+                <h1 className=' text-2xl font-bold mx-auto w-fit mt-8 '>Title Strip Board</h1>
+               <div className="flex noprintdplay justify-center p-8"> 
+                <button onClick={handlePrint} className='bg-blue-500 p-2  hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
+                    save as PDF
+                </button>
+                </div>
                 <main className='my-container printpage'>
                     <div className='table-grid'>
                         {/* This is the main row where the columns names sits */}
