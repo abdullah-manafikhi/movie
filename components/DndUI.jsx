@@ -6,6 +6,7 @@ import SortableItem from './SortableItem';
 import { initialLines } from "../assets/data"
 import TableContext from './context/TableContext.js';
 import randomColor from 'randomcolor'
+// import axios from 'axios'
 
 function DndUI() {
 
@@ -13,9 +14,21 @@ function DndUI() {
     const [items, setItems] = useState(initialLines);
 
     // cursor state is for changing the cursor when dragging 
-    const { setCursor, daysMap, setDaysMap } = useContext(TableContext);
+    const { setCursor, daysMap, setDaysMap, addLine } = useContext(TableContext);
     // const [activeId, setActiveId] = useState(null);
 
+    useEffect(() => {
+        if (addLine.type) {
+            let newItems = items.slice(0, addLine.index + 1)
+            console.log(newItems)
+            newItems.push({ id: addLine.index + 100, [addLine.type]: addLine.value })
+            const test = items.slice(addLine.index + 1, items.length - 1)
+            console.log(test)
+            newItems = newItems.concat(test)
+            console.log(newItems)
+            setItems(newItems)
+        }
+    }, [addLine])
 
     useEffect(() => {
         // initializing global variable "days"
@@ -32,6 +45,7 @@ function DndUI() {
                     days.colors = { ...days.colors, [item.id]: (JSON.parse(localStorage.getItem("colors")))[item.id] }
                 }
                 else {
+                    console.log(item)
                     days.colors = { ...days.colors, [item.id]: "white" }
                 }
             }
@@ -39,7 +53,21 @@ function DndUI() {
         // We are stringifying days object because we cannot save object in localStorge
         localStorage.setItem("colors", JSON.stringify(days.colors))
         setDaysMap(days)
+        console.log(days)
     }, [items])
+
+    // useEffect(() => {
+    //     (async() => {
+    //         console.log("its getting there")
+    //         const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/1")
+    //         const res = await test.json()
+    //         setItems([...res.table_content, {
+    //             id: "15",
+    //             day: "Day4"
+    //         }])
+    //         console.log(res)
+    //     })()    
+    // }, [])
 
 
     const sensors = useSensors(
@@ -54,9 +82,9 @@ function DndUI() {
                 tolerance: 1,
             },
         }),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        }),
+        // useSensor(KeyboardSensor, {
+        //     coordinateGetter: sortableKeyboardCoordinates,
+        // }),
     );
     // This functioon is for changing the consequence of the dnd table
     function handleDragEnd(event) {
