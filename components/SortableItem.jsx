@@ -74,11 +74,13 @@ function SortableItem(props) {
         console.log(e.currentTarget)
         setInputDisabled(prevState => {
             if (prevState) {
-                setTimeout(() => {
-                    firstInputRef.current.focus(); // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
-                    firstInputRef.current.setSelectionRange(0, firstInputRef.current.value.length);
-                    console.log("focused");
-                }, 100);
+                if(firstInputRef.current){
+                    setTimeout(() => {
+                        firstInputRef.current.focus(); // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
+                        firstInputRef.current.setSelectionRange(0, firstInputRef.current.value.length);
+                        console.log("focused");
+                    }, 100);
+                }
             }
             return !prevState
         })
