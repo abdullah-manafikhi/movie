@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import Link from 'next/link'
 import TableContext from './context/TableContext.js';
 import DndUI from './DndUI'
 import { HiDownload } from 'react-icons/hi'
@@ -16,10 +17,22 @@ function Table() {
 
     return (
         <div className={``}>
-            <div className="flex justify-center my-2">
+            {/* <button id="export-btn">Export to PDF</button> */}
+            <div className="noprintdplay w-1/2 mx-auto p-4 flex justify-evenly">
                 {!adding.isAdding ? (
-                    <button onClick={handlePrint} className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
-                        Save and download
+                    <button onClick={() => setIsAdding(prevState => !prevState)} className="btn h-fit">
+                        Add Line <span className='font-bold text-2xl mx-2 mb-1'>+</span>
+                    </button>
+                )
+                    : (
+                        <button onClick={() => setIsAdding(prevState => !prevState)} className="btn btn-sm h-fit">
+                         Done   <span className='text-xs lowercase ml-4 mb-1 font-semibold'>x</span>
+                        </button>
+                    )
+                }
+                {!adding.isAdding ? (
+                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
+                        <Link href="/print"> save</Link>
                     </button>) : ""
                 }
             </div>
