@@ -244,7 +244,11 @@ function SortableItem(props) {
                                 </>}
                         </span>
                         <span className='my-auto'>
-                            {formData.note}
+                            <input
+                                onChange={e => onChange(e)}
+                                type="text" placeholder="" defaultValue={formData.note} ref={firstInputRef}
+                                className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                            />
                         </span>
                         {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto ml-2'>
                             <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />                        </button>) : ""}
@@ -285,39 +289,72 @@ function SortableItem(props) {
                         </>}
                         </span> 
                         <span className='my-auto'>
+                        {inputDisabled  ?  
+                        <>
+                        <span className=" ">{formData.scene}</span>
+                        </>: 
+                        <>  
                             <textarea
                                 onChange={e => onChange(e)}
                                 type="text" placeholder="" defaultValue={formData.scene} ref={firstInputRef}
                                 className={`textarea textarea-ghost bg-none textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                             />
+                        </>
+                        }
                         </span>
                         <span className='my-auto'>
+                        {inputDisabled  ?  
+                        <>
+                        <span className=" ">{formData.camera}</span>
+                        </>: 
+                        <>  
                             <textarea
                                 onChange={e => onChange(e)}
                                 type="text" placeholder="" defaultValue={formData.camera}
                                 className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                             />
+                        </>
+                        }
                         </span>
                         <span className='my-auto'>
+                        {inputDisabled  ?  
+                        <>
+                        <span className=" ">{formData.summary}</span>
+                        </>: 
+                        <>  
                             <textarea
                                 ref={styleSummary}
                                 onChange={e => onChange(e)}
                                 type="text" placeholder="" defaultValue={formData.summary} 
                                 className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                             />
+                        </>
+                        }
                         </span>
                         <span className='my-auto'>
+                        {inputDisabled  ?  
+                        <>
+                        <span className=" ">{formData.location}</span>
+                        </>: 
+                        <>  
                             <textarea
                                 onChange={e => onChange(e)}
                                 type="text" placeholder="" defaultValue={formData.location}
                                 className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                             />
+                            </>}
                         </span>
                         <span className='my-auto flex justify-center'>
+                        {inputDisabled  ?  
+                        <>
+                        <span className=" ">{formData.page_length}</span>
+                        </>: 
+                        <>
                             <textarea
                                 type="text" placeholder="" defaultValue={formData.page_length}
                                 className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                             />
+                        </>}
                             {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto mr-2'>
                                 <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />
                             </button>) : ""}
