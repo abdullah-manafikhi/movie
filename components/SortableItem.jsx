@@ -94,22 +94,18 @@ function SortableItem(props) {
         trgt.style.height = trgt.scrollHeight + "px";
     }
 
-    // const style4 = { height: this.scrollHeight +"px"}
-    // const styleScene = useRef()
-    // const styleCamera = useRef()
-    // const styleLocation = useRef()
-    // const stylePage_length = useRef()
     const styleSummary = useRef()
-    // const firstInputRef = useRef()
-    // firstInputRef
-    // console.log(styleSummary)
     useEffect(() => {
-        // styleSummary.current.height = styleSummary.current..scrollHeight + "px";
-        // const trgt = d
-        // trgt.style.height = "auto";
-        // trgt.style.height = trgt.scrollHeight + "px";
-    
-    }, [])
+        setTimeout(() => {
+            const trgt =  [...document.querySelectorAll("textarea")]
+            trgt.forEach(element => {
+                console.log(element)
+            
+                element.style.height = "auto";
+                element.style.height = trgt.scrollHeight + "px";
+            });
+        }, 1000);
+    }, [inputDisabled])
     
 
 
