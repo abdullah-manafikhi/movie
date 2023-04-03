@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useContext } from "react";
 import { DndContext, DragOverlay, closestCenter, MouseSensor, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -11,7 +11,7 @@ import randomColor from 'randomcolor'
 function DndUI() {
 
     // This state is for storeing the data
-    const [items, setItems] = useState(initialLines);
+    const [items, setItems] = useState([]);
 
     // cursor state is for changing the cursor when dragging 
     const { setCursor, daysMap, setDaysMap, addLine } = useContext(TableContext);
@@ -21,7 +21,7 @@ function DndUI() {
         if (addLine.type) {
             let newItems = items.slice(0, addLine.index + 1)
             console.log(newItems)
-            newItems.push({ id: addLine.index + 100, [addLine.type]: addLine.value })
+            newItems.push({ id: items[items.length -1] +1, [addLine.type]: addLine.value })
             const test = items.slice(addLine.index + 1, items.length - 1)
             console.log(test)
             newItems = newItems.concat(test)
@@ -36,38 +36,42 @@ function DndUI() {
             colors: {},
             data: []
         }
-        items.forEach((item, index) => {
-            // This condition is for checking if the item is a day item
-            if (Object.hasOwn(item, "day")) {
-                (days.data).push({ ...item, index: index })
-                // This condition is to check if the user had changed a day color 
-                if (localStorage.getItem("colors") && (JSON.parse(localStorage.getItem("colors")))[index] !== "white") {
-                    days.colors = { ...days.colors, [item.id]: (JSON.parse(localStorage.getItem("colors")))[item.id] }
+        if (items.length > 0) {
+            items.forEach((item, index) => {
+                // This condition is for checking if the item is a day item
+                if (Object.hasOwn(item, "day")) {
+                    (days.data).push({ ...item, index: index })
+                    console.log((JSON.parse(localStorage.getItem("colors")))[index])
+                    // This condition is to check if the user had changed a day color 
+                    if ( localStorage.getItem("colors") && (JSON.parse(localStorage.getItem("colors")))[index] !== "white") {
+                        console.log("inside the if", (JSON.parse(localStorage.getItem("colors")))[item.id] )
+                        days.colors = { ...days.colors, [item.id]: (JSON.parse(localStorage.getItem("colors")))[item.id] }
+                    }
+                    else {
+                        days.colors = { ...days.colors, [item.id]: "white" }
+                    }
                 }
-                else {
-                    console.log(item)
-                    days.colors = { ...days.colors, [item.id]: "white" }
-                }
-            }
-        })
-        // We are stringifying days object because we cannot save object in localStorge
-        localStorage.setItem("colors", JSON.stringify(days.colors))
-        setDaysMap(days)
-        console.log(days)
+                // We are stringifying days object because we cannot save object in localStorge
+            })
+            localStorage.setItem("colors", JSON.stringify(days.colors))
+            setDaysMap(days)
+            console.log(days)
+        }
     }, [items])
 
-    // useEffect(() => {
-    //     (async() => {
-    //         console.log("its getting there")
-    //         const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/1")
-    //         const res = await test.json()
-    //         setItems([...res.table_content, {
-    //             id: "15",
-    //             day: "Day4"
-    //         }])
-    //         console.log(res)
-    //     })()    
-    // }, [])
+    useEffect(() => {
+        (async () => {
+            console.log("its getting there")
+            const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/6")
+            const res = await test.json()
+            // setItems([...res.table_content, {
+            //     id: "15",
+            //     day: "Day4"
+            // }])
+            setItems(res.table_content)
+            console.log(res.table_content)
+        })()
+    }, [])
 
 
     const sensors = useSensors(

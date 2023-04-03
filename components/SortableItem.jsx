@@ -74,11 +74,14 @@ function SortableItem(props) {
         console.log(e.currentTarget)
         setInputDisabled(prevState => {
             if (prevState) {
-                setTimeout(() => {
-                    firstInputRef.current.focus(); // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
-                    firstInputRef.current.setSelectionRange(0, firstInputRef.current.value.length);
-                    console.log("focused");
-                }, 100);
+                console.log(firstInputRef.current)
+                if (firstInputRef.current !== null) {
+                    setTimeout(() => {
+                        firstInputRef.current.focus(); // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
+                        firstInputRef.current.setSelectionRange(0, firstInputRef.current.value.length);
+                        console.log("focused");
+                    }, 100);
+                }
             }
             return !prevState
         })
@@ -92,28 +95,36 @@ function SortableItem(props) {
         trgt.style.height = trgt.scrollHeight + "px";
     }
 
-    // const style4 = { height: this.scrollHeight +"px"}
-    // const styleScene = useRef()
-    // const styleCamera = useRef()
-    // const styleLocation = useRef()
-    // const stylePage_length = useRef()
     const styleSummary = useRef()
-    // const firstInputRef = useRef()
-    // firstInputRef
-    console.log(styleSummary)
     useEffect(() => {
-        // styleSummary.current.height = styleSummary.current..scrollHeight + "px";
-        // const trgt = d
-        // trgt.style.height = "auto";
-        // trgt.style.height = trgt.scrollHeight + "px";
+        setTimeout(() => {
+            const trgt =  [...document.querySelectorAll("textarea")]
+            trgt.forEach(element => {
+                console.log(element)
+                element.style.height = "auto";
+                element.style.height = trgt.scrollHeight + "px";
+            });
+        }, 1000);
+    }, [inputDisabled])
     
-    }, [])
-    
+
+
+    // for (let i = 0; i < daysMap.data.length; ++i) {
+    //     if (props.index <= daysMap.data[i].index) {
+    //         setStyle3(prevState => (
+    //             {
+    //                 ...prevState,
+    //                 backgroundColor: daysMap.colors[daysMap.data[i].id] === "white" ? LsColors[daysMap.data[i].id] : daysMap.colors[daysMap.data[i].id]
+    //             }
+    //         ))
+    //         break;
+    //     }
+    // }
 
     useEffect(() => {
         if (daysMap !== null) {
             const LsColors = JSON.parse(localStorage.getItem("colors"))
-            let l = -1
+            let l = 0
             let r = daysMap.data.length - 1
             let mid = 0
 
@@ -131,12 +142,15 @@ function SortableItem(props) {
                     l = mid
                 }
             }
-            setStyle3(prevState => (
-                {
-                    ...prevState,
-                    backgroundColor: daysMap.colors[daysMap.data[r].id] === "white" ? LsColors[daysMap.data[r].id] : daysMap.colors[daysMap.data[r].id]
-                }
-            ))
+            if (daysMap.data[l] !== undefined) {
+                //    console.log(daysMap.data[r].id)
+                setStyle3(prevState => (
+                    {
+                        ...prevState,
+                        backgroundColor: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id]
+                    }
+                ))
+            }
 
             if (Object.hasOwn(formData, "day")) {
                 setStyle3(prevState => (
@@ -169,8 +183,8 @@ function SortableItem(props) {
         if (props.line.day) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                    <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
-                        <span className='w-auto noprintdplay m-auto flex justify-evenly'>
+                        <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}> 
+                            <span className=' w-auto noprintdplay m-auto flex justify-evenly'>
                         {inputDisabled  ?  
                         <>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
@@ -181,55 +195,15 @@ function SortableItem(props) {
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
                         </>}
                         </span> 
-                            <span className='my-auto'>
-                                {formData.day}
-                            </span>
-                            <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} />
-                        </div>
-                        <div className="w-full flex flex-auto justify-end">
-                        <button onClick={addNewSceneHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
-                        <button onClick={addNewNoteHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new note</button>
-                    </div>
-                        {/* this is the module that will display the delete confirm when clicking on the delete button*/}
-                        <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-                        <div className="modal">
-                            <div className="modal-box">
-                                <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
-                                <div className="modal-action">
-                                    <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
-                                    <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
-                                </div>
-                            </div>
-                        </div>
-                        {isAdding ? (<AddLine />) : ""}
-                    </div>
-            )
-        }
-        // ========== NOTES LINES ===========
-        else if (props.line.note) {
-            return (
-                <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                    <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-auto noprintdplay m-auto flex justify-evenly'>
-                        {inputDisabled  ?  
-                        <>
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
-                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
-                        </>: 
-                        <>  
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
-                        </>}
-                        </span> 
+                        
                         <span className='my-auto'>
-                            {formData.note}
-                        </span>
-                        <span className='my-auto'>
+                            {/* Normal mode display the span when ediing display the input */}
                             <input
                                 onChange={e => onChange(e)}
-                                type="text" placeholder="" defaultValue={formData.day} ref={firstInputRef}
-                                className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                                type="text" placeholder="" defaultValue={`Day ${formData.day}`} ref={firstInputRef}
+                                className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none hidden" : "pointer-events-auto"}`}
                             />
+                            <span className={`${inputDisabled ? "" : "hidden"} scroll-day font-extrabold`}>Day {formData.day}</span>
                         </span>
                         <div className="flex justify-center">
                             <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} />
@@ -271,7 +245,11 @@ function SortableItem(props) {
                                 </>}
                         </span>
                         <span className='my-auto'>
-                            {formData.note}
+                            {inputDisabled ? (<input
+                                onChange={e => onChange(e)}
+                                type="text" placeholder="" defaultValue={formData.note} ref={firstInputRef}
+                                className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                            />) : <span className=" ">{formData.note}</span>}
                         </span>
                         {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto ml-2'>
                             <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />                        </button>) : ""}
@@ -300,8 +278,10 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-auto noprintdplay m-auto flex justify-evenly'>
-                        {inputDisabled  ?  
+                    <span className='w-full  noprintdplay m-auto flex'>
+
+                        <span>
+                            {inputDisabled  ?  
                         <>
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
                             <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
@@ -310,49 +290,83 @@ function SortableItem(props) {
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
                             <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
                         </>}
+                        </span>
                         </span> 
                         <span className='my-auto'>
-                            <textarea
-                                onChange={e => onChange(e)}
-                                type="text" placeholder="" defaultValue={formData.scene} ref={firstInputRef}
-                                className={`textarea textarea-ghost bg-none textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                            />
+                            {inputDisabled ?
+                                <>
+                                    <span className=" ">{formData.scene}</span>
+                                </> :
+                                <>
+                                    <textarea
+                                        onChange={e => onChange(e)}
+                                        type="text" placeholder="" defaultValue={formData.scene} ref={firstInputRef}
+                                        className={`textarea textarea-ghost bg-none textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                                    />
+                                </>
+                            }
                         </span>
                         <span className='my-auto'>
-                            <textarea
-                                onChange={e => onChange(e)}
-                                type="text" placeholder="" defaultValue={formData.camera}
-                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                            />
+                            {inputDisabled ?
+                                <>
+                                    <span className=" ">{formData.camera}</span>
+                                </> :
+                                <>
+                                    <textarea
+                                        onChange={e => onChange(e)}
+                                        type="text" placeholder="" defaultValue={formData.camera}
+                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                                    />
+                                </>
+                            }
                         </span>
                         <span className='my-auto'>
-                            <textarea
-                                ref={styleSummary}
-                                onChange={e => onChange(e)}
-                                type="text" placeholder="" defaultValue={formData.summary} 
-                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                            />
+                            {inputDisabled ?
+                                <>
+                                    <span className=" ">{formData.summary}</span>
+                                </> :
+                                <>
+                                    <textarea
+                                        ref={styleSummary}
+                                        onChange={e => onChange(e)}
+                                        type="text" placeholder="" defaultValue={formData.summary}
+                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                                    />
+                                </>
+                            }
                         </span>
                         <span className='my-auto'>
-                            <textarea
-                                onChange={e => onChange(e)}
-                                type="text" placeholder="" defaultValue={formData.location}
-                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                            />
+                            {inputDisabled ?
+                                <>
+                                    <span className=" ">{formData.location}</span>
+                                </> :
+                                <>
+                                    <textarea
+                                        onChange={e => onChange(e)}
+                                        type="text" placeholder="" defaultValue={formData.location}
+                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                                    />
+                                </>}
                         </span>
                         <span className='my-auto flex justify-center'>
-                            <textarea
-                                type="text" placeholder="" defaultValue={formData.page_length}
-                                className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                            />
+                            {inputDisabled ?
+                                <>
+                                    <span className=" ">{formData.page_length}</span>
+                                </> :
+                                <>
+                                    <textarea
+                                        type="text" placeholder="" defaultValue={formData.page_length}
+                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                                    />
+                                </>}
                             {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto mr-2'>
                                 <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />
                             </button>) : ""}
                         </span>
                     </div>
                     <div className="w-full flex flex-auto justify-end">
-                        <button onClick={addNewSceneHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
-                        <button onClick={addNewNoteHundler } className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new note</button>
+                        <button onClick={addNewSceneHundler} className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
+                        <button onClick={addNewNoteHundler} className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new note</button>
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />
