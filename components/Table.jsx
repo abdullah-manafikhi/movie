@@ -16,7 +16,7 @@ function Table() {
     useEffect(() => {
         (async () => {
             console.log("its getting there")
-            const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/9")
+            const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/6")
             const res = await test.json()
             // setItems([...res.table_content, {
             //     id: "15",
