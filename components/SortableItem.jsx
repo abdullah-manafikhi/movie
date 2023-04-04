@@ -205,9 +205,9 @@ function SortableItem(props) {
                             />
                             <span className={`${inputDisabled ? "" : "hidden"} scroll-day font-extrabold`}>Day {formData.day}</span>
                         </span>
-                        <div className="flex justify-center">
+                        <div className="flex w-full justify-end">
                             <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} />
-                            {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto mr-4'>
+                            {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto '>
                                 <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />
                             </button>) : ""}
                         </div>
@@ -251,8 +251,11 @@ function SortableItem(props) {
                                 className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                             />) : <span className=" ">{formData.note}</span>}
                         </span>
-                        {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto ml-2'>
+                        <span className=" w-full flex justify-end">
+
+                        {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto'>
                             <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />                        </button>) : ""}
+                        </span>
                     </div>
                     <div className="w-full flex flex-auto justify-end">
                         <button onClick={addNewSceneHundler} className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
@@ -348,7 +351,7 @@ function SortableItem(props) {
                                     />
                                 </>}
                         </span>
-                        <span className='my-auto flex justify-center'>
+                        <span className='my-auto w-full flex justify-end'>
                             {inputDisabled ?
                                 <>
                                     <span className=" ">{formData.page_length}</span>
@@ -359,7 +362,7 @@ function SortableItem(props) {
                                         className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                                     />
                                 </>}
-                            {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto mr-2'>
+                            {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto'>
                                 <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />
                             </button>) : ""}
                         </span>
