@@ -2,12 +2,10 @@ import PrintTable from "../components/PrintTable";
 
 //  let items = initialLines
 function print() {
-    return(
-
+    return (
         <PrintTable />
-
     )
 
 }
 
-export default print ;
+export default print;

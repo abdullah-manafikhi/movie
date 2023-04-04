@@ -20,29 +20,29 @@ function PrintTable() {
             window.print()
         }
     }
-    useEffect(() => {
-        // initializing global variable "days"
-        globalThis.days = {
-            colors: {},
-            data: []
-        }
-        items.forEach((item, index) => {
-            // This condition is for checking if the item is a day item
-            if (Object.hasOwn(item, "day")) {
-                (days.data).push({ ...item, index: index })
-                // This condition is to check if the user had changed a day color 
-                if (localStorage.getItem("colors") && (JSON.parse(localStorage.getItem("colors")))[index] !== "white") {
-                    days.colors = { ...days.colors, [item.id]: (JSON.parse(localStorage.getItem("colors")))[item.id] }
-                }
-                else {
-                    days.colors = { ...days.colors, [item.id]: "white" }
-                }
-            }
-        })
-        // We are stringifying days object because we cannot save object in localStorge
-        localStorage.setItem("colors", JSON.stringify(days.colors))
-        setDaysMap(days)
-    }, [items])
+    // useEffect(() => {
+    //     // initializing global variable "days"
+    //     globalThis.days = {
+    //         colors: {},
+    //         data: []
+    //     }
+    //     items.forEach((item, index) => {
+    //         // This condition is for checking if the item is a day item
+    //         if (Object.hasOwn(item, "day")) {
+    //             (days.data).push({ ...item, index: index })
+    //             // This condition is to check if the user had changed a day color 
+    //             if (localStorage.getItem("colors") && (JSON.parse(localStorage.getItem("colors")))[index] !== "white") {
+    //                 days.colors = { ...days.colors, [item.id]: (JSON.parse(localStorage.getItem("colors")))[item.id] }
+    //             }
+    //             else {
+    //                 days.colors = { ...days.colors, [item.id]: "white" }
+    //             }
+    //         }
+    //     })
+    //     // We are stringifying days object because we cannot save object in localStorge
+    //     localStorage.setItem("colors", JSON.stringify(days.colors))
+    //     setDaysMap(days)
+    // }, [items])
 
 
 
