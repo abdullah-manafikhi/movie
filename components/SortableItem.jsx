@@ -7,7 +7,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import TableContext from './context/TableContext.js';
 import { PopOver } from '../components/PopOver'
 import AddLine from './AddLine.jsx';
-
+import Skeleton from "./Skeleton"
 
 function SortableItem(props) {
     // this is the table line "row" data
@@ -34,6 +34,59 @@ function SortableItem(props) {
         transition,
     };
 
+    const styleSummary = useRef()
+    useEffect(() => {
+        setTimeout(() => {
+            const trgt = [...document.querySelectorAll("textarea")]
+            trgt.forEach(element => {
+                console.log(element)
+                element.style.height = "auto";
+                element.style.height = trgt.scrollHeight + "px";
+            });
+        }, 1000);
+    }, [inputDisabled])
+
+    useEffect(() => {
+        if (daysMap !== null) {
+            const LsColors = JSON.parse(localStorage.getItem("colors"))
+            let l = 0
+            let r = daysMap.data.length - 1
+            let mid = 0
+
+            // =====================================
+            // *********** BINARY SEARCH ************
+            // ======================================
+
+            // This loop determines the line colors useing dpending on the day line color using binary search
+            while (l + 1 < r) {
+                mid = Math.floor((l + r) / 2)
+                if (props.index <= daysMap.data[mid].index) {
+                    r = mid
+                }
+                else if (props.index >= daysMap.data[mid].index) {
+                    l = mid
+                }
+            }
+            if (daysMap.data[l] !== undefined) {
+                setStyle3(prevState => (
+                    {
+                        ...prevState,
+                        backgroundColor: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id]
+                    }
+                ))
+            }
+
+            if (Object.hasOwn(formData, "day")) {
+                setStyle3(prevState => (
+                    {
+                        ...prevState,
+                        backgroundColor: daysMap.colors[formData.id] === "white" ? LsColors[formData.id] : daysMap.colors[formData.id]
+                    }
+                ))
+            }
+        }
+    }, [daysMap])
+
     // functions start here
     // This function is reponsible for allowing the user to save the edits that he/she made is on the row 
     const saveIconHundler = (e) => {
@@ -45,24 +98,10 @@ function SortableItem(props) {
             console.log(prevState)
             return true
         })
-
     }
 
     const cancelIconHundler = (e) => {
         console.log("cancel me pls im :", e.currentTarget)
-        setInputDisabled(prevState => {
-            console.log(prevState)
-            return true
-        })
-    }
-
-    const addNewNoteHundler = () => {
-        setInputDisabled(prevState => {
-            console.log(prevState)
-            return true
-        })
-    }
-    const addNewSceneHundler = () => {
         setInputDisabled(prevState => {
             console.log(prevState)
             return true
@@ -93,76 +132,8 @@ function SortableItem(props) {
         const trgt = e.currentTarget
         trgt.style.height = "auto";
         trgt.style.height = trgt.scrollHeight + "px";
+        setFormData(prevState => ({ ...prevState, [trgt.id]: trgt.value }))
     }
-
-    const styleSummary = useRef()
-    useEffect(() => {
-        setTimeout(() => {
-            const trgt =  [...document.querySelectorAll("textarea")]
-            trgt.forEach(element => {
-                console.log(element)
-                element.style.height = "auto";
-                element.style.height = trgt.scrollHeight + "px";
-            });
-        }, 1000);
-    }, [inputDisabled])
-    
-
-
-    // for (let i = 0; i < daysMap.data.length; ++i) {
-    //     if (props.index <= daysMap.data[i].index) {
-    //         setStyle3(prevState => (
-    //             {
-    //                 ...prevState,
-    //                 backgroundColor: daysMap.colors[daysMap.data[i].id] === "white" ? LsColors[daysMap.data[i].id] : daysMap.colors[daysMap.data[i].id]
-    //             }
-    //         ))
-    //         break;
-    //     }
-    // }
-
-    useEffect(() => {
-        if (daysMap !== null) {
-            const LsColors = JSON.parse(localStorage.getItem("colors"))
-            let l = 0
-            let r = daysMap.data.length - 1
-            let mid = 0
-
-            // =====================================
-            // *********** BINARY SEARCH ************
-            // ======================================
-
-            // This loop determines the line colors useing dpending on the day line color using binary search
-            while (l + 1 < r) {
-                mid = Math.floor((l + r) / 2)
-                if (props.index <= daysMap.data[mid].index) {
-                    r = mid
-                }
-                else if (props.index >= daysMap.data[mid].index) {
-                    l = mid
-                }
-            }
-            if (daysMap.data[l] !== undefined) {
-                //    console.log(daysMap.data[r].id)
-                setStyle3(prevState => (
-                    {
-                        ...prevState,
-                        backgroundColor: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id]
-                    }
-                ))
-            }
-
-            if (Object.hasOwn(formData, "day")) {
-                setStyle3(prevState => (
-                    {
-                        ...prevState,
-                        backgroundColor: daysMap.colors[formData.id] === "white" ? LsColors[formData.id] : daysMap.colors[formData.id]
-                    }
-                ))
-            }
-        }
-    }, [daysMap])
-
 
     const onChangeColor = (clr) => {
         setDaysMap(prevState => {
@@ -175,7 +146,7 @@ function SortableItem(props) {
     }
 
     if (daysMap === null) {
-        return (<h2>Loading...</h2>)
+        return (<></>)
     }
 
     else {
@@ -183,23 +154,23 @@ function SortableItem(props) {
         if (props.line.day) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
-                        <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}> 
-                            <span className=' w-auto noprintdplay m-auto flex justify-evenly'>
-                        {inputDisabled  ?  
-                        <>
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
-                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
-                        </>: 
-                        <>  
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
-                        </>}
-                        </span> 
-                        
+                    <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation z-1 ${cursor} `}>
+                        <span className=' w-auto noprintdplay m-auto flex justify-evenly'>
+                            {inputDisabled ?
+                                <>
+                                    <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
+                                    <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                                </> :
+                                <>
+                                    <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button>
+                                    <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button>
+                                </>}
+                        </span>
+
                         <span className='my-auto'>
                             {/* Normal mode display the span when ediing display the input */}
                             <input
-                                onChange={e => onChange(e)}
+                                onChange={e => onChange(e)} id="day"
                                 type="text" placeholder="" defaultValue={`Day ${formData.day}`} ref={firstInputRef}
                                 className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none hidden" : "pointer-events-auto"}`}
                             />
@@ -245,21 +216,18 @@ function SortableItem(props) {
                                 </>}
                         </span>
                         <span className='my-auto'>
-                            {inputDisabled ? (<input
-                                onChange={e => onChange(e)}
-                                type="text" placeholder="" defaultValue={formData.note} ref={firstInputRef}
-                                className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                            />) : <span className=" ">{formData.note}</span>}
+                            {inputDisabled ? (
+                                <input
+                                    onChange={e => onChange(e)} id="note"
+                                    type="text" placeholder="" defaultValue={formData.note} ref={firstInputRef}
+                                    className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
+                                />) : <span className="text-sm ">{formData.note}</span>}
                         </span>
                         <span className=" w-full flex justify-end">
 
                         {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto'>
                             <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />                        </button>) : ""}
                         </span>
-                    </div>
-                    <div className="w-full flex flex-auto justify-end">
-                        <button onClick={addNewSceneHundler} className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
-                        <button onClick={addNewNoteHundler} className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new note</button>
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />
@@ -281,28 +249,28 @@ function SortableItem(props) {
             return (
                 <div ref={setNodeRef} style={style}  {...attributes} {...listeners}>
                     <div title="Hold to Drag!" style={style3} className={`row-grid touch-manipulation z-1 ${cursor}`}>
-                    <span className='w-full  noprintdplay m-auto flex'>
+                        <span className='w-full  noprintdplay m-auto flex'>
 
-                        <span>
-                            {inputDisabled  ?  
-                        <>
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt/></button> 
-                            <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash/></label>
-                        </>: 
-                        <>  
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button> 
-                            <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button> 
-                        </>}
+                            <span>
+                                {inputDisabled ?
+                                    <>
+                                        <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => onEditClick(e)}><BiEditAlt /></button>
+                                        <label className='z-50 btn btn-xs btn-ghost text-red-600' htmlFor="my-modal-3" onClick={() => console.log("dleete")}><BiTrash /></label>
+                                    </> :
+                                    <>
+                                        <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => saveIconHundler(e)}>save</button>
+                                        <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button>
+                                    </>}
+                            </span>
                         </span>
-                        </span> 
                         <span className='my-auto'>
                             {inputDisabled ?
                                 <>
-                                    <span className=" ">{formData.scene}</span>
+                                    <span className="text-sm ">{formData.scene}</span>
                                 </> :
                                 <>
                                     <textarea
-                                        onChange={e => onChange(e)}
+                                        onChange={e => onChange(e)} id="scene"
                                         type="text" placeholder="" defaultValue={formData.scene} ref={firstInputRef}
                                         className={`textarea textarea-ghost bg-none textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                                     />
@@ -312,11 +280,11 @@ function SortableItem(props) {
                         <span className='my-auto'>
                             {inputDisabled ?
                                 <>
-                                    <span className=" ">{formData.camera}</span>
+                                    <span className="text-sm ">{formData.camera}</span>
                                 </> :
                                 <>
                                     <textarea
-                                        onChange={e => onChange(e)}
+                                        onChange={e => onChange(e)} id="camera"
                                         type="text" placeholder="" defaultValue={formData.camera}
                                         className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                                     />
@@ -326,12 +294,12 @@ function SortableItem(props) {
                         <span className='my-auto'>
                             {inputDisabled ?
                                 <>
-                                    <span className=" ">{formData.summary}</span>
+                                    <span className="text-sm ">{formData.summary}</span>
                                 </> :
                                 <>
                                     <textarea
                                         ref={styleSummary}
-                                        onChange={e => onChange(e)}
+                                        onChange={e => onChange(e)} id="summary"
                                         type="text" placeholder="" defaultValue={formData.summary}
                                         className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                                     />
@@ -341,11 +309,11 @@ function SortableItem(props) {
                         <span className='my-auto'>
                             {inputDisabled ?
                                 <>
-                                    <span className=" ">{formData.location}</span>
+                                    <span className="text-sm">{formData.location}</span>
                                 </> :
                                 <>
                                     <textarea
-                                        onChange={e => onChange(e)}
+                                        onChange={e => onChange(e)} id="location"
                                         type="text" placeholder="" defaultValue={formData.location}
                                         className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                                     />
@@ -354,10 +322,11 @@ function SortableItem(props) {
                         <span className='my-auto w-full flex justify-end'>
                             {inputDisabled ?
                                 <>
-                                    <span className=" ">{formData.page_length}</span>
+                                    <span className="text-sm ">{formData.page_length}</span>
                                 </> :
                                 <>
                                     <textarea
+                                        onChange={e => onChange(e)} id="page_whole"
                                         type="text" placeholder="" defaultValue={formData.page_length}
                                         className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
                                     />
@@ -366,10 +335,6 @@ function SortableItem(props) {
                                 <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />
                             </button>) : ""}
                         </span>
-                    </div>
-                    <div className="w-full flex flex-auto justify-end">
-                        <button onClick={addNewSceneHundler} className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new line</button>
-                        <button onClick={addNewNoteHundler} className={`${inputDisabled ? "hidden" : ""} btn m-3 text-white font-bold bg-blue-500 btn-ghost w-auto`}>add new note</button>
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />

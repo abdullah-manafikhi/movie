@@ -6,22 +6,23 @@ import SortableItem from './SortableItem';
 import { initialLines } from "../assets/data"
 import TableContext from './context/TableContext.js';
 import randomColor from 'randomcolor'
+import { VariableSizeList as List } from 'react-window';
+
 // import axios from 'axios'
 
-function DndUI() {
+function DndUI({ data }) {
 
     // This state is for storeing the data
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([...data]);
 
     // cursor state is for changing the cursor when dragging 
     const { setCursor, daysMap, setDaysMap, addLine } = useContext(TableContext);
     // const [activeId, setActiveId] = useState(null);
-
     useEffect(() => {
         if (addLine.type) {
             let newItems = items.slice(0, addLine.index + 1)
             console.log(newItems)
-            newItems.push({ id: items[items.length -1] +1, [addLine.type]: addLine.value })
+            newItems.push({ id: items[items.length - 1] + 1, [addLine.type]: addLine.value })
             const test = items.slice(addLine.index + 1, items.length - 1)
             console.log(test)
             newItems = newItems.concat(test)
@@ -43,8 +44,8 @@ function DndUI() {
                     (days.data).push({ ...item, index: index })
                     console.log((JSON.parse(localStorage.getItem("colors")))[index])
                     // This condition is to check if the user had changed a day color 
-                    if ( localStorage.getItem("colors") && (JSON.parse(localStorage.getItem("colors")))[index] !== "white") {
-                        console.log("inside the if", (JSON.parse(localStorage.getItem("colors")))[item.id] )
+                    if (localStorage.getItem("colors") && (JSON.parse(localStorage.getItem("colors")))[index] !== "white") {
+                        console.log("inside the if", (JSON.parse(localStorage.getItem("colors")))[item.id])
                         days.colors = { ...days.colors, [item.id]: (JSON.parse(localStorage.getItem("colors")))[item.id] }
                     }
                     else {
@@ -59,19 +60,7 @@ function DndUI() {
         }
     }, [items])
 
-    useEffect(() => {
-        (async () => {
-            console.log("its getting there")
-            const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/6")
-            const res = await test.json()
-            // setItems([...res.table_content, {
-            //     id: "15",
-            //     day: "Day4"
-            // }])
-            setItems(res.table_content)
-            console.log(res.table_content)
-        })()
-    }, [])
+
 
 
     const sensors = useSensors(
@@ -115,6 +104,28 @@ function DndUI() {
         }
     }
 
+    const rowHeights = new Array(1000)
+        .fill(true)
+        .map(() => 25 + Math.round(Math.random() * 50));
+
+    const getItemSize = index => rowHeights[index];
+
+    const Row = ({ index, style }) => (
+        <div style={style}> <SortableItem key={items[index].id} index={index} id={items[index].id} line={items[index]} value={`Item ${items[index].id}`} /></div>
+    );
+
+    const Example = () => (
+        <List
+            height={1000}
+            itemCount={1000}
+            itemSize={getItemSize}
+            width={1500}
+        >
+            {Row}
+        </List>
+    );
+
+
     return (
         <>
             {/* <Table /> */}
@@ -132,6 +143,7 @@ function DndUI() {
                     items={items}
                     strategy={verticalListSortingStrategy}
                 >
+                    {/* <Example /> */}
                     {items.map((line, index) => <SortableItem key={line.id} index={index} id={line.id} line={line} value={`Item ${line.id}`} />)}
                 </SortableContext>
                 {/* <DragOverlay>
