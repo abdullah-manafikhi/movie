@@ -1,13 +1,31 @@
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link'
 import TableContext from './context/TableContext.js';
+import Skeleton from './Skeleton.jsx';
 import DndUI from './DndUI'
-import { HiDownload } from 'react-icons/hi'
+import { VariableSizeList as List } from 'react-window';
+
 
 
 function Table() {
 
-    const { adding, setAdding } = useContext(TableContext)
+    const { adding, setAdding, daysMap } = useContext(TableContext)
+    const [items, setItems] = useState([])
+
+
+    useEffect(() => {
+        (async () => {
+            console.log("its getting there")
+            const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/9")
+            const res = await test.json()
+            // setItems([...res.table_content, {
+            //     id: "15",
+            //     day: "Day4"
+            // }])
+            setItems(res.table_content)
+            console.log(res.table_content)
+        })()
+    }, [])
 
     const handlePrint = () => {
         if (typeof (window) !== "undefinded") {
@@ -15,10 +33,11 @@ function Table() {
         }
     }
 
+  
     return (
         <div className={``}>
             {/* <button id="export-btn">Export to PDF</button> */}
-            <div className="noprintdplay w-1/2 mx-auto p-4 flex justify-evenly">    
+            <div className="noprintdplay w-1/2 mx-auto p-4 flex justify-evenly">
                 {!adding.isAdding ? (
                     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
                         <Link href="/print"> save</Link>
@@ -26,7 +45,7 @@ function Table() {
                 }
             </div>
             {/* <button id="export-btn">Export to PDF</button> */}
-            <div className="noprintdplay mx-auto p-4 fixed bottom-16 right-1 opacity-100 z-50 grid justify-items-end">
+            <div className="noprintdplay mx-auto p-4 fixed bottom-12 right-1 opacity-100 z-50 grid justify-items-end">
                 <button onClick={() => setAdding(prevState => ({ ...prevState, isAdding: !prevState.isAdding }))} className={`btn ${adding.isAdding ? "btn-error" : "btn-success"} h-16 w-16 relative rounded-full`}>
                     <span className={`font-normal ${adding.isAdding ? "text-2xl mb-1" : "text-5xl mb-2"} text-2xl rounded-full h-fit w-fit text-white`}>
                         {adding.isAdding ? "x" : "+"}
@@ -37,15 +56,15 @@ function Table() {
                 <div className='table-grid'>
                     {/* This is the main row where the columns names sits */}
                     <div id="tableTitle" className="row-grid">
-                        <span className='text-white noprintdplay text-sm sm:text-lg font-bold mx-8'>tools</span>
+                        <span className='text-white noprintdplay text-sm sm:text-lg font-bold mx-8'></span>
                         <span className='text-white text-sm sm:text-lg font-bold m-auto'>Scene No.</span>
                         <span className='text-white text-sm sm:text-lg font-bold m-auto'>Camera</span>
                         <span className='text-white text-sm sm:text-lg font-bold m-auto'>Summary</span>
                         <span className='text-white text-sm sm:text-lg font-bold m-auto'>Location</span>
-                        <span className='text-white text-sm sm:text-lg font-bold mx-8'>Scene Length</span>
+                        <span className='text-white text-sm sm:text-lg font-bold mx-8'>Page length</span>
                     </div>
                     {/* This component is for the rest of the table that has the DnD functionality */}
-                    <DndUI />
+                    {items.length > 0 ? (<DndUI data={items} />) : (<Skeleton />)}
                 </div>
             </main>
 
