@@ -5,7 +5,7 @@ const TableContext = createContext()
 export const TableProvider = ({ children }) => {
 
     const [cursor, setCursor] = useState("cursor-grab");
-    const [daysMap, setDaysMap] = useState(null)
+    const [daysMap, setDaysMap] = useState({data :["test", "test"], colors: ["white"]})
     const [colors, setColors] = useState([])
     const [adding, setAdding] = useState({isAdding : false, id: null})
     const [addLine, setAddLine] = useState({})

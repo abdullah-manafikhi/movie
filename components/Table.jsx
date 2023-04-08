@@ -3,6 +3,7 @@ import Link from 'next/link'
 import TableContext from './context/TableContext.js';
 import Skeleton from './Skeleton.jsx';
 import DndUI from './DndUI'
+import DragTest from './DragTest.jsx';
 import { VariableSizeList as List } from 'react-window';
 
 
@@ -15,17 +16,29 @@ function Table() {
 
     useEffect(() => {
         (async () => {
-            console.log("its getting there")
-            const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/6")
+            const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/10")
             const res = await test.json()
-            // setItems([...res.table_content, {
-            //     id: "15",
-            //     day: "Day4"
-            // }])
-            setItems(res.table_content)
             console.log(res.table_content)
+            const hello = addingDays(res.table_content)
+            setItems(hello)
         })()
     }, [])
+
+    const addingDays = (data) => {
+        let counter = 0
+        let dayCount = 2
+        let finalArr = [{ id: `d_${1}`, day: `Day ${1}`, counter: 0 }]
+        data.forEach((line, index) => {
+            counter += line.page_length
+            if (counter > 4.5) {
+                finalArr.push({ id: `d_${dayCount}`, day: `Day ${dayCount}`, counter: counter })
+                ++dayCount
+                counter = 0
+            }
+            finalArr.push(line)
+        })
+        return finalArr
+    }
 
     const handlePrint = () => {
         if (typeof (window) !== "undefinded") {
@@ -33,7 +46,6 @@ function Table() {
         }
     }
 
-  
     return (
         <div className={``}>
             {/* <button id="export-btn">Export to PDF</button> */}
@@ -53,7 +65,7 @@ function Table() {
                 </button>
             </div>
             <main className='my-container'>
-                <div className='table-grid'>
+                <div draggable className='table-grid '>
                     {/* This is the main row where the columns names sits */}
                     <div id="tableTitle" className="row-grid">
                         <span className='text-white noprintdplay text-sm sm:text-lg font-bold mx-8'></span>
@@ -64,7 +76,7 @@ function Table() {
                         <span className='text-white text-sm sm:text-lg font-bold mx-8'>Page length</span>
                     </div>
                     {/* This component is for the rest of the table that has the DnD functionality */}
-                    {items.length > 0 ? (<DndUI data={items} />) : (<Skeleton />)}
+                    {items.length > 0 ? (<DragTest items={items} />) : (<Skeleton />)}
                 </div>
             </main>
 
