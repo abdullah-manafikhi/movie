@@ -107,7 +107,7 @@ function SortableItemTest(props) {
                         firstInputRef.current.focus(); // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
                         firstInputRef.current.setSelectionRange(0, firstInputRef.current.value.length);
                         console.log("focused");
-                    }, 100);
+                    }, 0);
                 }
             }
             return !prevState
@@ -162,7 +162,7 @@ function SortableItemTest(props) {
                                 type="text" placeholder="" defaultValue={`Day ${formData.day}`} ref={firstInputRef}
                                 className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none hidden" : "pointer-events-auto"}`}
                             />
-                            <span className={`${inputDisabled ? "" : "hidden"} scroll-day font-extrabold`}>Day {formData.day}</span>
+                            <span className={`${inputDisabled ? "" : "hidden"}  font-extrabold`}>Day {formData.day}</span>
                         </span>
                         <div className="flex w-full justify-end">
                             <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} />
@@ -204,12 +204,13 @@ function SortableItemTest(props) {
                                 </>}
                         </span>
                         <span className='my-auto'>
-                            {inputDisabled ? (
-                                <input
-                                    onChange={e => onChange(e)} id="note"
-                                    type="text" placeholder="" defaultValue={formData.note} ref={firstInputRef}
-                                    className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none" : "pointer-events-auto"}`}
-                                />) : <span className="text-sm ">{formData.note}</span>}
+                            {/* Normal mode display the span when ediing display the input */}
+                            <input
+                                onChange={e => onChange(e)} id="1656"
+                                type="text" placeholder="" defaultValue={formData.note} ref={firstInputRef}
+                                className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none hidden" : "pointer-events-auto"}`}
+                            />
+                            <span className={`${inputDisabled ? "" : "hidden"} scroll-day font-extrabold`}>{formData.note}</span>
                         </span>
                         <span className=" w-full flex justify-end">
 

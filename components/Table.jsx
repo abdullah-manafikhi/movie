@@ -13,10 +13,10 @@ import { BiCaretDown, BiCaretup } from 'react-icons/bi'
 
 function Table() {
 
-    const { adding, setAdding, daysMap } = useContext(TableContext)
+    const { adding, setAdding, daysMap, items, setItems } = useContext(TableContext)
     const [itemPure, setItemPure] = useState([]) //sence with out day 
     // const [sortItem , setSortItem] = useState([]) //sence with out day 
-    const [items, setItems] = useState([])
+    // const [items, setItems] = useState([])
 
     function sortby(prop) {
         const arrayAfterSort = sortAccordingFor(itemPure, prop, 1, 'id', 0)
@@ -72,7 +72,7 @@ function Table() {
             <div className="noprintdplay w-1/2 mx-auto p-4 flex justify-evenly">
                 {!adding.isAdding ? (
                     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
-                        {/* <Link href="/print"> save</Link> */}
+                        <Link href="/print"> save</Link>
                     </button>) : ""
                 }
             </div>

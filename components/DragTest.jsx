@@ -10,11 +10,9 @@ function DragTest({ items }) {
     const [touch, setTouch] = useState(false)
     
     const { setCursor, daysMap, setDaysMap, addLine } = useContext(TableContext);
-    useEffect(() => {
-        setData(items)
-    
-    
-    }, [items])
+    // useEffect(() => {
+    //     setData(items)  
+    // }, [items])
 
 
     // ========= USERREFs =========

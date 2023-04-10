@@ -2,16 +2,14 @@ import { useContext, useState, useEffect } from 'react';
 import TableContext from './context/TableContext.js';
 // import DndUI from './DndUI'
 import SortableItemForPrint from './SortableItemForPrint';
-import { initialLines } from "../assets/data"
 
 
 function PrintTable() {
 
     // This state is for storeing the data
-    const [items, setItems] = useState(initialLines);
 
     // cursor state is for changing the cursor when dragging 
-    const { setCursor, daysMap, setDaysMap } = useContext(TableContext);
+    const { setCursor, daysMap, setDaysMap, items } = useContext(TableContext);
     // const [activeId, setActiveId] = useState(null);
 
 

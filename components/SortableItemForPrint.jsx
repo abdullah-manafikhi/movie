@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { useContext } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import TableContext from "./context/TableContext.js.jsx";
@@ -11,7 +10,7 @@ function SortableItemForPrint(props) {
   const [style3, setStyle3] = useState({ backgroundColor: "" })
 
   // getting the table from the context
-  const { daysMap } = useContext(TableContext)
+  const { daysMap, items } = useContext(TableContext)
 
   useEffect(() => {
     if (daysMap !== null) {
@@ -62,7 +61,7 @@ function SortableItemForPrint(props) {
     if (props.line.day) {
       return (
         <div style={style3} className={`row-grid-day touch-manipulation z-1  `} >
-          <span className="my-auto">{formData.day}</span>
+          <span className="my-auto font-extrabold">{formData.day}</span>
         </div>
       );
     }
