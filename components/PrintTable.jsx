@@ -6,7 +6,7 @@ import { initialLines } from "../assets/data"
 
 
 function PrintTable() {
-    
+
     // This state is for storeing the data
     const [items, setItems] = useState(initialLines);
 
@@ -53,10 +53,10 @@ function PrintTable() {
             <>
                 {/*  <!-- Add a button to trigger the PDF export --> */}
                 <h1 className=' text-2xl font-bold mx-auto w-fit mt-8 '>Title Strip Board</h1>
-               <div className="flex noprintdplay justify-center p-8"> 
-                <button onClick={handlePrint} className='bg-blue-500 p-2  hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
-                    save as PDF
-                </button>
+                <div className="flex noprintdplay justify-center p-8">
+                    <button onClick={handlePrint} className='bg-blue-500 p-2  hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
+                        save as PDF
+                    </button>
                 </div>
                 <main className='my-container printpage'>
                     <div className='table-grid'>
@@ -72,10 +72,10 @@ function PrintTable() {
                         {items.map((line, index) =>
                             <SortableItemForPrint
                                 key={line.id}
-                                 index={index} 
-                                 id={line.id} 
-                                 line={line}
-                                  value={`Item ${line.id}`}
+                                index={index}
+                                id={line.id}
+                                line={line}
+                                value={`Item ${line.id}`}
                             />)}
 
                     </div>
@@ -84,7 +84,7 @@ function PrintTable() {
         </div>
 
     )
-    
+
 }
 
-export default PrintTable ;
+export default PrintTable;

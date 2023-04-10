@@ -34,7 +34,7 @@ function SortableItemTest(props) {
 
     useEffect(() => {
         if (daysMap !== null) {
-            console.log("its getting there")
+            // console.log("its getting there")
             const LsColors = JSON.parse(localStorage.getItem("colors"))
             let l = 0
             let r = daysMap.data.length - 1
@@ -54,7 +54,7 @@ function SortableItemTest(props) {
                     l = mid
                 }
             }
-            console.log(l, r)
+            // console.log(l, r)
             if (daysMap.data[l] !== undefined) {
                 setStyle3(prevState => (
                     {
@@ -408,7 +408,7 @@ function SortableItemTest(props) {
                             </div>
                         </div >
                     </div >
-                { adding.isAdding && formData.id === adding.id ? (<AddLine index={props.index} />) : "" }
+                    {adding.isAdding && formData.id === adding.id ? (<AddLine index={props.index} />) : ""}
                 </>
             )
         }

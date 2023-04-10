@@ -10,6 +10,11 @@ function DragTest({ items }) {
     const [touch, setTouch] = useState(false)
     
     const { setCursor, daysMap, setDaysMap, addLine } = useContext(TableContext);
+    useEffect(() => {
+        setData(items)
+    
+    
+    }, [items])
 
 
     // ========= USERREFs =========
@@ -209,12 +214,9 @@ function DragTest({ items }) {
                     dragItem.current = null
                 }
             }
-            console.log("its clearing the setTimeout")
             clearTimeout(x)
             setTouch(false)
-            console.log("its clearing the setTimeout")
             y = null
-            console.log("falsing")
             dragItem.current = null
         };
 

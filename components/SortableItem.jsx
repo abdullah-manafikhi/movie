@@ -225,8 +225,8 @@ function SortableItem(props) {
                         </span>
                         <span className=" w-full flex justify-end">
 
-                        {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto'>
-                            <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />                        </button>) : ""}
+                            {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto'>
+                                <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />                        </button>) : ""}
                         </span>
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}

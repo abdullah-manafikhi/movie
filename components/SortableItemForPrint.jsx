@@ -15,44 +15,44 @@ function SortableItemForPrint(props) {
 
   useEffect(() => {
     if (daysMap !== null) {
-        const LsColors = JSON.parse(localStorage.getItem("colors"))
-        let l = 0
-        let r = daysMap.data.length - 1
-        let mid = 0
+      const LsColors = JSON.parse(localStorage.getItem("colors"))
+      let l = 0
+      let r = daysMap.data.length - 1
+      let mid = 0
 
-        // =====================================
-        // *********** BINARY SEARCH ************
-        // ======================================
+      // =====================================
+      // *********** BINARY SEARCH ************
+      // ======================================
 
-        // This loop determines the line colors useing dpending on the day line color using binary search
-        while (l + 1 < r) {
-            mid = Math.floor((l + r) / 2)
-            if (props.index <= daysMap.data[mid].index) {
-                r = mid
-            }
-            else if (props.index >= daysMap.data[mid].index) {
-                l = mid
-            }
+      // This loop determines the line colors useing dpending on the day line color using binary search
+      while (l + 1 < r) {
+        mid = Math.floor((l + r) / 2)
+        if (props.index <= daysMap.data[mid].index) {
+          r = mid
         }
-        if (daysMap.data[l] !== undefined) {
-            setStyle3(prevState => (
-                {
-                    ...prevState,
-                    backgroundColor: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id]
-                }
-            ))
+        else if (props.index >= daysMap.data[mid].index) {
+          l = mid
         }
+      }
+      if (daysMap.data[l] !== undefined) {
+        setStyle3(prevState => (
+          {
+            ...prevState,
+            backgroundColor: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id]
+          }
+        ))
+      }
 
-        if (Object.hasOwn(formData, "day")) {
-            setStyle3(prevState => (
-                {
-                    ...prevState,
-                    backgroundColor: daysMap.colors[formData.id] === "white" ? LsColors[formData.id] : daysMap.colors[formData.id]
-                }
-            ))
-        }
+      if (Object.hasOwn(formData, "day")) {
+        setStyle3(prevState => (
+          {
+            ...prevState,
+            backgroundColor: daysMap.colors[formData.id] === "white" ? LsColors[formData.id] : daysMap.colors[formData.id]
+          }
+        ))
+      }
     }
-}, [daysMap])
+  }, [daysMap])
 
   if (daysMap === null) {
     return <h2>Loading...</h2>;
