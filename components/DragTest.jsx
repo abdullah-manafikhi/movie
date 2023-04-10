@@ -62,38 +62,6 @@ function DragTest({ items }) {
     // *************** MOUSE EVENTS **************
     // ===========================================
 
-    const onDragStart = (e, index) => {
-        dragItem.current = { data: data[index], index: index }
-        console.log("start")
-        e.target.classList.add("dragging")
-    }
-
-    const onDragEnter = (e, index) => {
-        console.log("enter")
-        e.preventDefault()
-        dragOverItem.current = { data: data[index], index: index }
-        // after dragging a line when entering new line add "dragging class"
-        e.target.classList.add("dragging")
-    }
-
-    const onDragLeave = (e) => {
-        e.preventDefault()
-        console.log("leave")
-        // after dragging a line when leaving an enteed line remove "dragging class"
-        e.target.classList.remove("dragging")
-    }
-
-    const onDragEnd = (e) => {
-        e.target.classList.remove("dragging")
-        e.preventDefault()
-        const test = [...data]
-        test.splice(dragItem.current.index, 1)
-        // Adding item to the array 
-        test.splice(dragOverItem.current.index, 0, dragItem.current.data)
-        dragItem.current = { ...dragItem.current, index: dragOverItem.current.index }
-        setRefresh(prev => !prev)
-        setData(test)
-    }
     let x = null
     const onDragStart = (e, index) => {
         console.log("its getting there")
