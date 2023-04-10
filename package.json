@@ -16,15 +16,15 @@
     "next": "13.2.4",
     "randomcolor": "^0.6.2",
     "react": "18.2.0",
-    "react-beautiful-dnd": "^13.1.1",
     "react-color": "^2.19.3",
     "react-colorful": "^5.6.1",
     "react-content-loader": "^6.2.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
-    "react-virtualized-dnd": "^2.5.1",
-    "react-window": "^1.8.8",
-    "use-debouncy": "^4.4.0"
+ 
+    "react-virtualized-auto-sizer": "^1.0.12",
+    "react-window": "^1.8.8"
+ 
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",

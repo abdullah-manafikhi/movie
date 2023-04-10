@@ -13,7 +13,6 @@ function Table() {
     const { adding, setAdding, daysMap } = useContext(TableContext)
     const [items, setItems] = useState([])
 
-
     useEffect(() => {
         (async () => {
             const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/10")
@@ -21,6 +20,7 @@ function Table() {
             console.log(res.table_content)
             const hello = addingDays(res.table_content)
             setItems(hello)
+            console.log(res.table_content)
         })()
     }, [])
 
@@ -52,7 +52,7 @@ function Table() {
             <div className="noprintdplay w-1/2 mx-auto p-4 flex justify-evenly">
                 {!adding.isAdding ? (
                     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-y-2 px-4 rounded ms-3'>
-                        <Link href="/print"> save</Link>
+                        {/* <Link href="/print"> save</Link> */}
                     </button>) : ""
                 }
             </div>
@@ -83,44 +83,5 @@ function Table() {
         </div>
     )
 }
-
-// <table id="table" className={`${styles["table"]}`}>
-// <thead>
-//     <tr>
-//         <th>Scene No.</th>
-//         <th>Camera</th>
-//         <th>Summary</th>
-//         <th>Location</th>
-//         <th>Scene Length</th>
-//     </tr>
-// </thead>
-// <tbody>
-//     {
-//         lines.map((line, index) => (
-//             <>
-//                 {/* {% for line in table_data %}
-//                         {% if line.scene %} */}
-//                 <tr key={index} className={`${styles["scenes"]}`}>
-//                     <td>{line.scene}</td>
-//                     {/* {% if line.camera == 'EXT.' %} */}
-//                     <td className={`${styles["camera-ext"]}`}>{line.camera}</td>
-//                     {/* {% elif line.camera == 'INT.' %} */}
-//                     {/*  */}
-//                     {/* {% endif %} */}
-//                     <td>{line.summary}</td>
-//                     <td>{line.location}</td>
-//                     <td>{line.page_length}</td>
-//                 </tr>
-//                 {/* {% else %} */}
-//                 <tr className={`${styles["days"]}`}>
-//                     <td colSpan="5"> Day {line.day}</td>
-//                 </tr>
-//                 {/* {% endif %} {% endfor %} */}
-//             </>
-//         ))
-//     }
-
-// </tbody>
-// </table>
 
 export default Table
