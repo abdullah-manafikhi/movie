@@ -2,8 +2,8 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { PropTypes } from "prop-types";
 import TableContext from './context/TableContext.js';
 import SortableItemTest from "./SortableItemTest";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { FixedSizeList as List } from 'react-window';
+// import AutoSizer from "react-virtualized-auto-sizer";
+// import { FixedSizeList as List } from 'react-window';
 function DragTest({ items }) {
     const [data, setData] = useState([...items]);
     const [refresh, setRefresh] = useState(false);
@@ -30,7 +30,7 @@ function DragTest({ items }) {
             newItems.push({ id: data.length, [addLine.type]: "New" })
             const test = data.slice(addLine.index + 1, data.length - 1)
             newItems = newItems.concat(test)
-            console.log("fuck", newItems)
+            console.log("fuck", newItems)//what is this delete it 
             setData(newItems)
         }
     }, [addLine])
@@ -241,8 +241,7 @@ function DragTest({ items }) {
                     draggable
                     key={index}
                     id={line.id}
-                    className={`w-full cursor-move draggable transition-transform touch-none draggable-line`}
-                    className={`w-full cursor-move draggable transition-transform bg-red-300 draggable-line`}
+                    className={`w-full cursor-move draggable transition-transform touch-none bg-red-300 draggable-line`}
                     onDragStart={(e) => onDragStart(e, index)}
                     onDragOver={(e) => e.preventDefault()}
                     onDragEnter={(e) => onDragEnter(e, index)}
