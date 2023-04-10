@@ -4,25 +4,46 @@ import TableContext from './context/TableContext.js';
 import Skeleton from './Skeleton.jsx';
 import DndUI from './DndUI'
 import DragTest from './DragTest.jsx';
-import { VariableSizeList as List } from 'react-window';
+import sortAccordingFor from "./functions/sort.js";
+import { BiCaretDown, BiCaretup } from 'react-icons/bi'
+
+// import { VariableSizeList as List } from 'react-window';
 
 
 
 function Table() {
 
     const { adding, setAdding, daysMap } = useContext(TableContext)
+    const [itemPure, setItemPure] = useState([]) //sence with out day 
+    // const [sortItem , setSortItem] = useState([]) //sence with out day 
     const [items, setItems] = useState([])
+    
+    function sortby (prop){ 
+        const arrayAfterSort = sortAccordingFor(itemPure , prop, 1 ,'id', 0  )
+        const sortAndDay = addingDays(arrayAfterSort)
 
+        setItems(sortAndDay)
+        console.table(itemPure)
+        console.log(` sort by ${prop} `)
+    }
 
     useEffect(() => {
         (async () => {
             const test = await fetch("http://movieapp-env.eba-xgguxtgd.us-west-1.elasticbeanstalk.com/api/stripboards/10")
             const res = await test.json()
-            console.log(res.table_content)
-            const hello = addingDays(res.table_content)
-            setItems(hello)
+            console.log("fitsh")
+            setItemPure(res.table_content)
+            setItems(addingDays(res.table_content))
         })()
     }, [])
+    // useEffect(() => {
+    //     // console.table(res.table_content)
+    //     const hello = addingDays(itemPure)
+    //     console.log(hello)
+    //     setItems(hello)
+  
+    // }, [itemPure])
+    
 
     const addingDays = (data) => {
         let counter = 0
@@ -69,58 +90,30 @@ function Table() {
                     {/* This is the main row where the columns names sits */}
                     <div id="tableTitle" className="row-grid">
                         <span className='text-white noprintdplay text-sm sm:text-lg font-bold mx-8'></span>
-                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Scene No.</span>
-                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Camera</span>
-                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Summary</span>
-                        <span className='text-white text-sm sm:text-lg font-bold m-auto'>Location</span>
-                        <span className='text-white text-sm sm:text-lg font-bold mx-8'>Page length</span>
+                        <span onClick={()=>sortby('id')} className='text-white flex h-full items-center text-sm sm:text-lg font-bold m-auto'>
+                            Scene No.   <BiCaretDown className='self-end' />
+                            </span>
+                        <span onClick={()=>sortby('camera')} className='text-white h-full flex items-center text-sm sm:text-lg font-bold m-auto'>
+                            Camera   <BiCaretDown className='self-end' />
+                            </span>
+                        <span onClick={()=>sortby('summary')} className='text-white h-full flex items-center text-sm sm:text-lg font-bold m-auto'>
+                            Summary   <BiCaretDown className='self-end' />
+                            </span>
+                        <span onClick={()=>sortby('location')} className='text-white h-full flex items-center text-sm sm:text-lg font-bold m-auto'>
+                            Location   <BiCaretDown className='self-end' />
+                            </span>
+                        <span onClick={()=>sortby('page_length')} className='text-white h-full flex items-center text-sm sm:text-lg font-bold mx-8'>
+                            Page length   <BiCaretDown className='self-end' />
+                            </span>
+
                     </div>
                     {/* This component is for the rest of the table that has the DnD functionality */}
-                    {items.length > 0 ? (<DragTest items={items} />) : (<Skeleton />)}
+                    {items.length > 0 ? <DragTest items={items} /> : (<Skeleton />)}
                 </div>
             </main>
 
         </div>
     )
 }
-
-// <table id="table" className={`${styles["table"]}`}>
-// <thead>
-//     <tr>
-//         <th>Scene No.</th>
-//         <th>Camera</th>
-//         <th>Summary</th>
-//         <th>Location</th>
-//         <th>Scene Length</th>
-//     </tr>
-// </thead>
-// <tbody>
-//     {
-//         lines.map((line, index) => (
-//             <>
-//                 {/* {% for line in table_data %}
-//                         {% if line.scene %} */}
-//                 <tr key={index} className={`${styles["scenes"]}`}>
-//                     <td>{line.scene}</td>
-//                     {/* {% if line.camera == 'EXT.' %} */}
-//                     <td className={`${styles["camera-ext"]}`}>{line.camera}</td>
-//                     {/* {% elif line.camera == 'INT.' %} */}
-//                     {/*  */}
-//                     {/* {% endif %} */}
-//                     <td>{line.summary}</td>
-//                     <td>{line.location}</td>
-//                     <td>{line.page_length}</td>
-//                 </tr>
-//                 {/* {% else %} */}
-//                 <tr className={`${styles["days"]}`}>
-//                     <td colSpan="5"> Day {line.day}</td>
-//                 </tr>
-//                 {/* {% endif %} {% endfor %} */}
-//             </>
-//         ))
-//     }
-
-// </tbody>
-// </table>
 
 export default Table

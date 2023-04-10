@@ -2,9 +2,16 @@ import { useState, useRef, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 import SortableItemTest from './SortableItemTest'
 function DragTest({ items }) {
+    useEffect(() => {
+        setData(items)
+    
+    
+    }, [items])
+    
 
     const [data, setData] = useState([...items])
     const [refresh, setRefresh] = useState(false)
+    // console.table(data)
 
     useEffect(() => {
         // getting all the lines    
@@ -94,7 +101,7 @@ function DragTest({ items }) {
         setData(test)
     }
 
-    console.log(refresh)
+    // console.log(refresh)
 
     return (
         <div id="container" draggable className='w-full grid grid-cols-1 text-black bg-rose-300'>
