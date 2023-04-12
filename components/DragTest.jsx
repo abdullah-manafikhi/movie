@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { PropTypes } from "prop-types";
 import TableContext from './context/TableContext.js';
 import SortableItemTest from "./SortableItemTest";
+import { gsap } from "gsap";
 // import AutoSizer from "react-virtualized-auto-sizer";
 // import { FixedSizeList as List } from 'react-window';
 function DragTest({ items }) {
@@ -15,6 +16,35 @@ function DragTest({ items }) {
     
     
     }, [items])
+
+    useEffect(() => {
+        console.log(document.querySelectorAll('.gsappp'))
+        const target = document.querySelectorAll('.gsappp')
+        
+        
+        
+        let ctx = gsap.context(() => {
+        
+            // gsap.from(senceGsap.current, {  y: -10 ,duration :1,delay: 0.5});
+
+            gsap.from(target, 5, {
+                x: -100,
+                ease: "power1.inOut",
+                delay: 1,//make del by id
+                stagger: {
+                  amount: 1.5, 
+                  grid: "auto",
+                  axis: "y",
+                  from: "end"
+                }
+              });
+            
+          }, document.querySelector('#container'))
+
+          return () => ctx.revert();
+
+    }, [])
+    
 
 
     // ========= USERREFs =========

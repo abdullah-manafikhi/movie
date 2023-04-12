@@ -10,29 +10,31 @@ function SortableItemTest(props) {
 
 const senceGsap = useRef()
 const compGsap = useRef()
-    useEffect(() => {
-        
-        let ctx = gsap.context(() => {
-        
-            // gsap.from(senceGsap.current, {  y: -10 ,duration :1,delay: 0.5});
+// console.log( document.querySelector('body'))
 
-            gsap.from(senceGsap.current, 5, {
-                x: -100,
-                ease: "power1.inOut",
-                delay: 0,//make del by id
-                stagger: {
-                  amount: .5, 
-                  grid: "auto",
-                  axis: "y",
-                  from: "end"
-                }
-              });
+    // useEffect(() => {
+        
+    //     let ctx = gsap.context(() => {
+        
+    //         // gsap.from(senceGsap.current, {  y: -10 ,duration :1,delay: 0.5});
+
+    //         // gsap.from('span', 5, {
+    //         //     x: -100,
+    //         //     ease: "power1.inOut",
+    //         //     delay: 0,//make del by id
+    //         //     stagger: {
+    //         //       amount: .5, 
+    //         //       grid: "auto",
+    //         //       axis: "y",
+    //         //       from: "end"
+    //         //     }
+    //         //   });
             
-          }, compGsap)
+    //       }, compGsap)
 
-          return () => ctx.revert();
+    //       return () => ctx.revert();
 
-    }, [])
+    // }, [])
     
 
     // this is the table line "row" data
@@ -265,7 +267,7 @@ const compGsap = useRef()
         else {
             return (
                 <>
-                    <div className='' ref={compGsap} > 
+                    <div className='gsappp' ref={compGsap} > 
                     <div
                     ref={senceGsap}
                         title="Hold to Drag!"
