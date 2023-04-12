@@ -234,7 +234,7 @@ function DragTest({ items }) {
     return (
         <div
             id="container"
-            className={`w-full grid grid-cols-1 ${touch ? " touch-none" : "touch-manipulation "} text-black `}
+            className={`w-full gap-y-0.5 grid grid-cols-1 ${touch ? " touch-none" : "touch-manipulation "} text-black `}
         >
             {data.map((line, index) => (
                 <div

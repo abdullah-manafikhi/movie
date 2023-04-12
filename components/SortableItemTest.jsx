@@ -4,8 +4,36 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import TableContext from './context/TableContext.js';
 import { PopOver } from '../components/PopOver'
 import AddLine from './AddLine.jsx';
+import { gsap } from "gsap";
 
 function SortableItemTest(props) {
+
+const senceGsap = useRef()
+const compGsap = useRef()
+    useEffect(() => {
+        
+        let ctx = gsap.context(() => {
+        
+            // gsap.from(senceGsap.current, {  y: -10 ,duration :1,delay: 0.5});
+
+            gsap.from(senceGsap.current, 5, {
+                x: -100,
+                ease: "power1.inOut",
+                delay: 0,//make del by id
+                stagger: {
+                  amount: .5, 
+                  grid: "auto",
+                  axis: "y",
+                  from: "end"
+                }
+              });
+            
+          }, compGsap)
+
+          return () => ctx.revert();
+
+    }, [])
+    
 
     // this is the table line "row" data
     const [formData, setFormData] = useState(props.line)
@@ -237,10 +265,12 @@ function SortableItemTest(props) {
         else {
             return (
                 <>
+                    <div className='' ref={compGsap} > 
                     <div
+                    ref={senceGsap}
                         title="Hold to Drag!"
                         style={style3}
-                        className={`row-grid touch-manipulation z-1 ${cursor}`}
+                        className={`row-grid box touch-manipulation z-1 ${cursor}`}
                     >
                         <span className="w-full  noprintdplay m-auto flex">
                             <span>
@@ -409,6 +439,9 @@ function SortableItemTest(props) {
                         </div >
                     </div >
                     {adding.isAdding && formData.id === adding.id ? (<AddLine index={props.index} />) : ""}
+                
+
+                    </div>
                 </>
             )
         }
