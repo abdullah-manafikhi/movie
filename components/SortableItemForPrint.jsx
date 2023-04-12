@@ -60,7 +60,7 @@ function SortableItemForPrint(props) {
     // ========== DAYS LINES ===========
     if (props.line.day) {
       return (
-        <div style={style3} className={`row-grid-day touch-manipulation z-1  `} >
+        <div style={style3} className={`row-grid-day-print touch-manipulation z-1  `} >
           <span className="my-auto font-extrabold">{formData.day}</span>
         </div>
       );

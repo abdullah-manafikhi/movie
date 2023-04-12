@@ -12,7 +12,10 @@ function SortableItemTest(props) {
 
     const [inputDisabled, setInputDisabled] = useState(true)
 
-    const [style3, setStyle3] = useState({ backgroundColor: "" })
+    const [style3, setStyle3] = useState({ backgroundColor: "", color: "" })
+
+    const [style4, setStyle4] = useState(props.style4)
+    console.log(style4)
 
     // getting the table from the context
     const { cursor, daysMap, setDaysMap, adding, setAdding } = useContext(TableContext)
@@ -20,11 +23,15 @@ function SortableItemTest(props) {
     const firstInputRef = useRef()
 
     const styleSummary = useRef()
+
+    useEffect(() => {
+        setStyle4(props.style4)
+    }, [props.style4])
+
     useEffect(() => {
         setTimeout(() => {
             const trgt = [...document.querySelectorAll("textarea")]
             trgt.forEach(element => {
-                console.log(element)
                 element.style.height = "auto";
                 element.style.height = trgt.scrollHeight + "px";
             });
@@ -34,7 +41,6 @@ function SortableItemTest(props) {
 
     useEffect(() => {
         if (daysMap !== null) {
-            // console.log("its getting there")
             const LsColors = JSON.parse(localStorage.getItem("colors"))
             let l = 0
             let r = daysMap.data.length - 1
@@ -44,7 +50,7 @@ function SortableItemTest(props) {
             // *********** BINARY SEARCH ************
             // ======================================
 
-            // This loop determines the line colors useing dpending on the day line color using binary search
+            // This loop determines the line colors dpending on the day line color using binary search
             while (l + 1 < r) {
                 mid = Math.floor((l + r) / 2)
                 if (props.index <= daysMap.data[mid].index) {
@@ -54,12 +60,12 @@ function SortableItemTest(props) {
                     l = mid
                 }
             }
-            // console.log(l, r)
             if (daysMap.data[l] !== undefined) {
                 setStyle3(prevState => (
                     {
                         ...prevState,
-                        backgroundColor: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id]
+                        backgroundColor: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id],
+                        color: daysMap.colors[daysMap.data[l].id] === "white" ? LsColors[daysMap.data[l].id] : daysMap.colors[daysMap.data[l].id]
                     }
                 ))
             }
@@ -68,7 +74,8 @@ function SortableItemTest(props) {
                 setStyle3(prevState => (
                     {
                         ...prevState,
-                        backgroundColor: daysMap.colors[formData.id] === "white" ? LsColors[formData.id] : daysMap.colors[formData.id]
+                        backgroundColor: daysMap.colors[formData.id] === "white" ? LsColors[formData.id] : daysMap.colors[formData.id],
+                        color: ""
                     }
                 ))
             }
@@ -78,18 +85,15 @@ function SortableItemTest(props) {
     // functions start here
     // This function is reponsible for allowing the user to save the edits that he/she made is on the row 
     const saveIconHundler = (e) => {
-        console.log("save me pls im :", e.currentTarget)
         // do some save action here 
         window.alert("you edit the sence number (XX) saved ")
 
         setInputDisabled(prevState => {
-            console.log(prevState)
             return true
         })
     }
 
     const cancelIconHundler = (e) => {
-        console.log("cancel me pls im :", e.currentTarget)
         setInputDisabled(prevState => {
             console.log(prevState)
             return true
@@ -98,15 +102,12 @@ function SortableItemTest(props) {
 
     // This function is reponsible for allowing the user to edit the row, focusing on the first input and highliting its text 
     const onEditClick = (e) => {
-        console.log(e.currentTarget)
         setInputDisabled(prevState => {
             if (prevState) {
-                console.log(firstInputRef.current)
                 if (firstInputRef.current !== null) {
                     setTimeout(() => {
                         firstInputRef.current.focus(); // onEditClick => focus=> showing problem on click  on day or note becuase there is no text area 
                         firstInputRef.current.setSelectionRange(0, firstInputRef.current.value.length);
-                        console.log("focused");
                     }, 0);
                 }
             }
@@ -133,6 +134,7 @@ function SortableItemTest(props) {
         })
     }
 
+    const presetColors = ["#cd9323", "#1a53d8", "#9a2151", "#0d6416", "#8d2808", "#9a2151", "#9a2151", "#9a2151", "#9a2151"];
 
     if (daysMap === null) {
         return (<><h2>hellp</h2></>)
@@ -142,7 +144,7 @@ function SortableItemTest(props) {
         if (props.line.day) {
             return (
                 <>
-                    <div title="Hold to Drag!" style={style3} className={`row-grid-day touch-manipulation bg-red-600 z-1 ${cursor} `}>
+                    <div title="Hold to Drag!" style={style4.DAYS} className={`row-grid-day touch-manipulation bg-red-600 z-1 ${cursor} `}>
                         <span className=' w-auto noprintdplay m-auto flex justify-evenly'>
                             {inputDisabled ?
                                 <>
@@ -154,7 +156,6 @@ function SortableItemTest(props) {
                                     <button className='z-50 btn btn-xs btn-ghost' onClick={(e) => cancelIconHundler(e)}>cancel</button>
                                 </>}
                         </span>
-
                         <span className='my-auto'>
                             {/* Normal mode display the span when ediing display the input */}
                             <input
@@ -162,14 +163,17 @@ function SortableItemTest(props) {
                                 type="text" placeholder="" defaultValue={`Day ${formData.day}`} ref={firstInputRef}
                                 className={`input input-ghost text-center resize-none w-full font-extrabold max-w-xs scroll-day ${inputDisabled ? "pointer-events-none hidden" : "pointer-events-auto"}`}
                             />
-                            <span className={`${inputDisabled ? "" : "hidden"}  font-extrabold`}>Day {formData.day}</span>
+                            <span className={`${inputDisabled ? "" : "hidden"}  font-extrabold`}>{formData.day}</span>
                         </span>
-                        <div className="flex w-full justify-end">
-                            <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} />
+                        <div style={style3} className={`flex w-full justify-center`}>
+                            <PopOver color={daysMap.colors[formData.id]} onChange={onChangeColor} presetColors={presetColors} />
                             {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto '>
                                 <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />
                             </button>) : ""}
                         </div>
+                        {/* <div style={style3} className='w-full h-full' >
+                            .
+                        </div> */}
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />
@@ -190,7 +194,7 @@ function SortableItemTest(props) {
         else if (props.line.note) {
             return (
                 <>
-                    <div title="Hold to Drag!" style={style3} className={`row-grid-note touch-manipulation z-1 ${cursor}`}>
+                    <div title="Hold to Drag!" className={`row-grid-note touch-manipulation z-1 ${cursor}`}>
                         <span className='w-auto noprintdplay m-auto flex justify-evenly'>
                             {/* inputDisable ?  *** ENOUGH *** */}
                             {inputDisabled === true ?
@@ -217,6 +221,9 @@ function SortableItemTest(props) {
                             {adding.isAdding ? (<button className='btn btn-xs btn-ghost text-blue-500 text-xl my-auto'>
                                 <AiOutlinePlus onClick={() => setAdding({ isAdding: true, id: formData.id })} />                        </button>) : ""}
                         </span>
+                        <div style={style3} className='w-full h-full' >
+                            .
+                        </div>
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />
@@ -239,8 +246,8 @@ function SortableItemTest(props) {
             return (
                 <>
                     <div
+                        style={formData.camera === "INT." ? style4.INT : style4.EXT}
                         title="Hold to Drag!"
-                        style={style3}
                         className={`row-grid touch-manipulation z-1 ${cursor}`}
                     >
                         <span className="w-full  noprintdplay m-auto flex">
@@ -397,6 +404,9 @@ function SortableItemTest(props) {
                                 ""
                             )}
                         </span>
+                        <div style={style3} className='w-full h-full' >
+                            .
+                        </div>
                     </div>
                     {/* this is the module that will display the delete confirm when clicking on the delete button*/}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />

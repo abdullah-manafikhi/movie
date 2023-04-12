@@ -4,15 +4,18 @@ import TableContext from './context/TableContext.js';
 import SortableItemTest from "./SortableItemTest";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from 'react-window';
-function DragTest({ items }) {
-    const [data, setData] = useState([...items]);
+
+
+function DragTest({ items, style }) {
+    const [data, setData] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [touch, setTouch] = useState(false)
     
     const { setCursor, daysMap, setDaysMap, addLine } = useContext(TableContext);
-    // useEffect(() => {
-    //     setData(items)  
-    // }, [items])
+
+    useEffect(() => {
+        setData(items)  
+    }, [items])
 
 
     // ========= USERREFs =========
@@ -21,14 +24,11 @@ function DragTest({ items }) {
     const dragOverItem = useRef(null);
 
     useEffect(() => {
-        console.log("its getting into it", addLine.type)
         if (addLine.type) {
             let newItems = data.slice(0, addLine.index + 1)
-            console.log(newItems)
             newItems.push({ id: data.length, [addLine.type]: "New" })
             const test = data.slice(addLine.index + 1, data.length - 1)
             newItems = newItems.concat(test)
-            console.log("fuck", newItems)
             setData(newItems)
         }
     }, [addLine])
@@ -56,7 +56,6 @@ function DragTest({ items }) {
             })
             localStorage.setItem("colors", JSON.stringify(days.colors))
             setDaysMap(days)
-            console.log(days)
         }
     }, [data])
 
@@ -66,14 +65,14 @@ function DragTest({ items }) {
     // ===========================================
 
     let x = null
+    let dragFlag = false
+
     const onDragStart = (e, index) => {
-        console.log("its getting there")
         e.currentTarget.classList.add("hello")
         x = setTimeout(() => {
-            console.log(x)
+            dragFlag = true
             e.target.classList.add("dragging")
             dragItem.current = { data: data[index], index: index };
-            console.log("start");
             // getting all the lines
             globalThis.lines = [...document.querySelectorAll(".draggable-line")];
             // creating array of objects that cotains the folowing info
@@ -81,15 +80,12 @@ function DragTest({ items }) {
                 let rec = line.getBoundingClientRect();
                 return { id: line.id, index: index, Y: rec.height + rec.top };
             });
-        }, 500)
+        }, 300)
     };
 
     const onDragEnter = (e, index) => {
-        console.log(e.pointerType)
-        console.log("enter", dragItem.current, x)
         dragOverItem.current = { data: data[index], index: index };
-        if (dragItem.current !== null && x !== null) {
-            console.log("enter");
+        if (dragFlag) {
             e.preventDefault();
             // after dragging a line when entering new line add "dragging class"
             e.currentTarget.classList.add("dragging");
@@ -98,8 +94,7 @@ function DragTest({ items }) {
 
     const onDragLeave = (e) => {
         e.preventDefault();
-        if (dragItem.current !== null) {
-            console.log("leave");
+        if (dragFlag) {
             // after dragging a line when leaving an enteed line remove "dragging class"
             e.currentTarget.classList.remove("dragging");
         }
@@ -107,16 +102,12 @@ function DragTest({ items }) {
     };
 
     const onDragEnd = (e) => {
-        console.log("dragEnd")
-        if (dragItem.current !== null) {
-            console.log(e.target, e.currentTarget)
+        if (dragFlag) {
             e.preventDefault();
             const test = [...data];
             test.splice(dragItem.current.index, 1);
-            console.log(test)
             // Adding item to the array
             test.splice(dragOverItem.current.index, 0, dragItem.current.data);
-            console.log(test)
             dragItem.current = {
                 ...dragItem.current,
                 index: dragOverItem.current.index,
@@ -133,7 +124,6 @@ function DragTest({ items }) {
             dragging.classList.remove("dragging")
         })
         clearTimeout(x)
-        dragItem.current = null
     };
 
 
@@ -148,26 +138,23 @@ function DragTest({ items }) {
     const pointerDown = (e, index) => {
         // e.preventDefault()
         if (e.pointerType !== "mouse") {
-            console.log("pointer down", index, e.currentTarget)
             y = setTimeout(() => {
+                dragFlag = true
                 e.target.classList.add("dragging")
                 dragItem.current = { data: data[index], index: index };
-                console.log("start");
                 // getting all the lines
                 setTouch(true)
-            }, 500)
+            }, 300)
         }
     }
 
     const pointerMove = (e, index) => {
         if (e.pointerType !== "mouse") {
-            if (dragItem.current !== null) {
+            if (dragFlag) {
                 e.currentTarget.style.position = "fixed"
                 e.currentTarget.style.width = "80%"
                 e.currentTarget.style.top = `${e.clientY}px`
                 e.currentTarget.style.zIndex = `+1000`
-                console.log(e.clientY)
-                console.log("pointer move")
                 if (e.clientY > window.innerHeight * 0.9) {
                     window.scrollBy(0, 15)
                 }
@@ -184,25 +171,20 @@ function DragTest({ items }) {
             e.currentTarget.style.position = "relative"
             e.currentTarget.style.width = "100%"
             e.currentTarget.style.top = "0px"
-            console.log("pointer up", e.currentTarget)
-            if (dragItem.current !== null) {
+            if (dragFlag) {
                 globalThis.lines = [...document.querySelectorAll(".draggable-line")];
                 // creating array of objects that cotains the folowing info
                 globalThis.heights = lines.map((line, indx) => {
                     let rec = line.getBoundingClientRect();
                     return { id: line.id, index: indx, Y: indx === index ? 0 : rec.height + rec.top };
                 });
-                console.log(heights)
                 const current = heights.find((line) => { return (e.clientY) - (line.Y) < -10 });
-                console.log(current)
                 dragOverItem.current = { data: data[current.index], index: current.index }
                 if (dragOverItem.current.data) {
                     const test = [...data];
                     test.splice(Number(dragItem.current.index), 1);
                     // Adding item to the array
-                    console.log(dragOverItem.current.index, test)
                     test.splice(dragOverItem.current.index, 0, dragItem.current.data);
-                    console.log(test)
                     dragItem.current = {
                         ...dragItem.current,
                         index: dragOverItem.current.index,
@@ -212,9 +194,9 @@ function DragTest({ items }) {
                     dragItem.current = null
                 }
             }
-            clearTimeout(x)
+            clearTimeout(y)
             setTouch(false)
-            y = null
+            dragFlag = false
             dragItem.current = null
         };
 
@@ -223,8 +205,10 @@ function DragTest({ items }) {
     const onPointerCancel = (e) => {
         if (e.pointerType !== "mouse") {
             if (dragItem.current === null) {
-                console.log("its clearing the setTimeout")
                 clearTimeout(x)
+                clearTimeout(y)
+                dragItem.current = null
+                dragFlag = false
             }
         }
     }
@@ -240,7 +224,7 @@ function DragTest({ items }) {
                     key={index}
                     id={line.id}
                     className={`w-full cursor-move draggable transition-transform touch-none draggable-line`}
-                    className={`w-full cursor-move draggable transition-transform bg-red-300 draggable-line`}
+                    className={`w-full cursor-move draggable transition-transform draggable-line`}
                     onDragStart={(e) => onDragStart(e, index)}
                     onDragOver={(e) => e.preventDefault()}
                     onDragEnter={(e) => onDragEnter(e, index)}
@@ -257,6 +241,7 @@ function DragTest({ items }) {
                         index={index}
                         id={line.id}
                         line={line}
+                        style4={style}
                         value={`Item ${line.id}`}
                     />
                 </div>
