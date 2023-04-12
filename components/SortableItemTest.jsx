@@ -4,8 +4,38 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import TableContext from './context/TableContext.js';
 import { PopOver } from '../components/PopOver'
 import AddLine from './AddLine.jsx';
+import { gsap } from "gsap";
 
 function SortableItemTest(props) {
+
+    const senceGsap = useRef()
+    const compGsap = useRef()
+    // console.log( document.querySelector('body'))
+
+    // useEffect(() => {
+
+    //     let ctx = gsap.context(() => {
+
+    //         // gsap.from(senceGsap.current, {  y: -10 ,duration :1,delay: 0.5});
+
+    //         // gsap.from('span', 5, {
+    //         //     x: -100,
+    //         //     ease: "power1.inOut",
+    //         //     delay: 0,//make del by id
+    //         //     stagger: {
+    //         //       amount: .5, 
+    //         //       grid: "auto",
+    //         //       axis: "y",
+    //         //       from: "end"
+    //         //     }
+    //         //   });
+
+    //       }, compGsap)
+
+    //       return () => ctx.revert();
+
+    // }, [])
+
 
     // this is the table line "row" data
     const [formData, setFormData] = useState(props.line)
@@ -245,181 +275,186 @@ function SortableItemTest(props) {
         else {
             return (
                 <>
-                    <div
-                        style={formData.camera === "INT." ? style4.INT : style4.EXT}
-                        title="Hold to Drag!"
-                        className={`row-grid touch-manipulation z-1 ${cursor}`}
-                    >
-                        <span className="w-full  noprintdplay m-auto flex">
-                            <span>
+                    <div className='gsappp' ref={compGsap} >
+                        <div
+                            style={formData.camera === "INT." ? style4.INT : style4.EXT}
+                            title="Hold to Drag!"
+                            ref={senceGsap}
+                            className={`row-grid box touch-manipulation z-1 ${cursor}`}
+                        >
+                            <span className="w-full  noprintdplay m-auto flex">
+                                <span>
+                                    {inputDisabled ? (
+                                        <>
+                                            <button
+                                                className="z-50 btn btn-xs btn-ghost"
+                                                onClick={(e) => onEditClick(e)}
+                                            >
+                                                <BiEditAlt />
+                                            </button>
+                                            <label
+                                                className="z-50 btn btn-xs btn-ghost text-red-600"
+                                                htmlFor="my-modal-3"
+                                                onClick={() => console.log("dleete")}
+                                            >
+                                                <BiTrash />
+                                            </label>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button
+                                                className="z-50 btn btn-xs btn-ghost"
+                                                onClick={(e) => saveIconHundler(e)}
+                                            >
+                                                save
+                                            </button>
+                                            <button
+                                                className="z-50 btn btn-xs btn-ghost"
+                                                onClick={(e) => cancelIconHundler(e)}
+                                            >
+                                                cancel
+                                            </button>
+                                        </>
+                                    )}
+                                </span>
+                            </span>
+                            <span className="my-auto">
                                 {inputDisabled ? (
                                     <>
-                                        <button
-                                            className="z-50 btn btn-xs btn-ghost"
-                                            onClick={(e) => onEditClick(e)}
-                                        >
-                                            <BiEditAlt />
-                                        </button>
-                                        <label
-                                            className="z-50 btn btn-xs btn-ghost text-red-600"
-                                            htmlFor="my-modal-3"
-                                            onClick={() => console.log("dleete")}
-                                        >
-                                            <BiTrash />
-                                        </label>
+                                        <span className="text-sm ">{formData.scene}</span>
                                     </>
                                 ) : (
                                     <>
-                                        <button
-                                            className="z-50 btn btn-xs btn-ghost"
-                                            onClick={(e) => saveIconHundler(e)}
-                                        >
-                                            save
-                                        </button>
-                                        <button
-                                            className="z-50 btn btn-xs btn-ghost"
-                                            onClick={(e) => cancelIconHundler(e)}
-                                        >
-                                            cancel
-                                        </button>
+                                        <textarea
+                                            onChange={(e) => onChange(e)}
+                                            id="scene"
+                                            type="text"
+                                            placeholder=""
+                                            defaultValue={formData.scene}
+                                            ref={firstInputRef}
+                                            className={`textarea textarea-ghost bg-none textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
+                                                ? "pointer-events-none"
+                                                : "pointer-events-auto"
+                                                }`}
+                                        />
                                     </>
                                 )}
                             </span>
-                        </span>
-                        <span className="my-auto">
-                            {inputDisabled ? (
-                                <>
-                                    <span className="text-sm ">{formData.scene}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <textarea
-                                        onChange={(e) => onChange(e)}
-                                        id="scene"
-                                        type="text"
-                                        placeholder=""
-                                        defaultValue={formData.scene}
-                                        ref={firstInputRef}
-                                        className={`textarea textarea-ghost bg-none textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
-                                            ? "pointer-events-none"
-                                            : "pointer-events-auto"
-                                            }`}
-                                    />
-                                </>
-                            )}
-                        </span>
-                        <span className="my-auto">
-                            {inputDisabled ? (
-                                <>
-                                    <span className="text-sm ">{formData.camera}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <textarea
-                                        onChange={(e) => onChange(e)}
-                                        id="camera"
-                                        type="text"
-                                        placeholder=""
-                                        defaultValue={formData.camera}
-                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
-                                            ? "pointer-events-none"
-                                            : "pointer-events-auto"
-                                            }`}
-                                    />
-                                </>
-                            )}
-                        </span>
-                        <span className="my-auto">
-                            {inputDisabled ? (
-                                <>
-                                    <span className="text-sm ">{formData.summary}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <textarea
-                                        ref={styleSummary}
-                                        onChange={(e) => onChange(e)}
-                                        id="summary"
-                                        type="text"
-                                        placeholder=""
-                                        defaultValue={formData.summary}
-                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
-                                            ? "pointer-events-none"
-                                            : "pointer-events-auto"
-                                            }`}
-                                    />
-                                </>
-                            )}
-                        </span>
-                        <span className="my-auto">
-                            {inputDisabled ? (
-                                <>
-                                    <span className="text-sm">{formData.location}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <textarea
-                                        onChange={(e) => onChange(e)}
-                                        id="location"
-                                        type="text"
-                                        placeholder=""
-                                        defaultValue={formData.location}
-                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
-                                            ? "pointer-events-none"
-                                            : "pointer-events-auto"
-                                            }`}
-                                    />
-                                </>
-                            )}
-                        </span>
-                        <span className="my-auto w-full flex justify-end">
-                            {inputDisabled ? (
-                                <>
-                                    <span className="text-sm ">{formData.page_length}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <textarea
-                                        onChange={(e) => onChange(e)}
-                                        id="page_whole"
-                                        type="text"
-                                        placeholder=""
-                                        defaultValue={formData.page_length}
-                                        className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
-                                            ? "pointer-events-none"
-                                            : "pointer-events-auto"
-                                            }`}
-                                    />
-                                </>
-                            )}
-                            {adding.isAdding ? (
-                                <button className="btn btn-xs btn-ghost text-blue-500 text-xl my-auto">
-                                    <AiOutlinePlus
-                                        onClick={() =>
-                                            setAdding({ isAdding: true, id: formData.id })
-                                        }
-                                    />
-                                </button>
-                            ) : (
-                                ""
-                            )}
-                        </span>
-                        <div style={style3} className='w-full h-full' >
-                            .
-                        </div>
-                    </div>
-                    {/* this is the module that will display the delete confirm when clicking on the delete button*/}
-                    <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-                    <div className="modal">
-                        <div className="modal-box">
-                            <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
-                            <div className="modal-action">
-                                <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
-                                <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
+                            <span className="my-auto">
+                                {inputDisabled ? (
+                                    <>
+                                        <span className="text-sm ">{formData.camera}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <textarea
+                                            onChange={(e) => onChange(e)}
+                                            id="camera"
+                                            type="text"
+                                            placeholder=""
+                                            defaultValue={formData.camera}
+                                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
+                                                ? "pointer-events-none"
+                                                : "pointer-events-auto"
+                                                }`}
+                                        />
+                                    </>
+                                )}
+                            </span>
+                            <span className="my-auto">
+                                {inputDisabled ? (
+                                    <>
+                                        <span className="text-sm ">{formData.summary}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <textarea
+                                            ref={styleSummary}
+                                            onChange={(e) => onChange(e)}
+                                            id="summary"
+                                            type="text"
+                                            placeholder=""
+                                            defaultValue={formData.summary}
+                                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
+                                                ? "pointer-events-none"
+                                                : "pointer-events-auto"
+                                                }`}
+                                        />
+                                    </>
+                                )}
+                            </span>
+                            <span className="my-auto">
+                                {inputDisabled ? (
+                                    <>
+                                        <span className="text-sm">{formData.location}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <textarea
+                                            onChange={(e) => onChange(e)}
+                                            id="location"
+                                            type="text"
+                                            placeholder=""
+                                            defaultValue={formData.location}
+                                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
+                                                ? "pointer-events-none"
+                                                : "pointer-events-auto"
+                                                }`}
+                                        />
+                                    </>
+                                )}
+                            </span>
+                            <span className="my-auto w-full flex justify-end">
+                                {inputDisabled ? (
+                                    <>
+                                        <span className="text-sm ">{formData.page_length}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <textarea
+                                            onChange={(e) => onChange(e)}
+                                            id="page_whole"
+                                            type="text"
+                                            placeholder=""
+                                            defaultValue={formData.page_length}
+                                            className={`textarea textarea-ghost textarea-xs resize-none w-full max-w-xs scroll ${inputDisabled
+                                                ? "pointer-events-none"
+                                                : "pointer-events-auto"
+                                                }`}
+                                        />
+                                    </>
+                                )}
+                                {adding.isAdding ? (
+                                    <button className="btn btn-xs btn-ghost text-blue-500 text-xl my-auto">
+                                        <AiOutlinePlus
+                                            onClick={() =>
+                                                setAdding({ isAdding: true, id: formData.id })
+                                            }
+                                        />
+                                    </button>
+                                ) : (
+                                    ""
+                                )}
+                            </span>
+                            <div style={style3} className='w-full h-full' >
+                                .
                             </div>
+                        </div>
+                        {/* this is the module that will display the delete confirm when clicking on the delete button*/}
+                        <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+                        <div className="modal">
+                            <div className="modal-box">
+                                <p className="py-4">Are you sure you want to delete <strong>{formData.scene}</strong>!</p>
+                                <div className="modal-action">
+                                    <label htmlFor="my-modal-3" className="btn btn-ghost">Cancel</label>
+                                    <label htmlFor="my-modal-3" className="btn bg-red-500 border-none">Delete</label>
+                                </div>
+                            </div >
                         </div >
-                    </div >
-                    {adding.isAdding && formData.id === adding.id ? (<AddLine index={props.index} />) : ""}
+                        {adding.isAdding && formData.id === adding.id ? (<AddLine index={props.index} />) : ""}
+
+
+                    </div>
                 </>
             )
         }

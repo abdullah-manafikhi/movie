@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { PropTypes } from "prop-types";
 import TableContext from './context/TableContext.js';
 import SortableItemTest from "./SortableItemTest";
+import { gsap } from "gsap";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from 'react-window';
 
@@ -10,12 +11,41 @@ function DragTest({ items, style }) {
     const [data, setData] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [touch, setTouch] = useState(false)
-    
+
     const { setCursor, daysMap, setDaysMap, addLine } = useContext(TableContext);
 
     useEffect(() => {
-        setData(items)  
+        setData(items)
     }, [items])
+
+    useEffect(() => {
+        console.log(document.querySelectorAll('.gsappp'))
+        const target = document.querySelectorAll('.gsappp')
+
+
+
+        let ctx = gsap.context(() => {
+
+            // gsap.from(senceGsap.current, {  y: -10 ,duration :1,delay: 0.5});
+
+            gsap.from(target, 5, {
+                x: -100,
+                ease: "power1.inOut",
+                delay: 1,//make del by id
+                stagger: {
+                    amount: 1.5,
+                    grid: "auto",
+                    axis: "y",
+                    from: "end"
+                }
+            });
+
+        }, document.querySelector('#container'))
+
+        return () => ctx.revert();
+
+    }, [])
+
 
 
     // ========= USERREFs =========
@@ -133,7 +163,7 @@ function DragTest({ items, style }) {
     // *************** TOUCH EVENTS **************
     // ===========================================
 
-   
+
     let y = null
     const pointerDown = (e, index) => {
         // e.preventDefault()
@@ -216,7 +246,7 @@ function DragTest({ items, style }) {
     return (
         <div
             id="container"
-            className={`w-full grid grid-cols-1 ${touch ? " touch-none" : "touch-manipulation "} text-black `}
+            className={`w-full gap-y-0.5 grid grid-cols-1 ${touch ? " touch-none" : "touch-manipulation "} text-black `}
         >
             {data.map((line, index) => (
                 <div
@@ -224,7 +254,7 @@ function DragTest({ items, style }) {
                     key={index}
                     id={line.id}
                     className={`w-full cursor-move draggable transition-transform touch-none draggable-line`}
-                    className={`w-full cursor-move draggable transition-transform draggable-line`}
+                    // className={`w-full cursor-move draggable transition-transform draggable-line`}
                     onDragStart={(e) => onDragStart(e, index)}
                     onDragOver={(e) => e.preventDefault()}
                     onDragEnter={(e) => onDragEnter(e, index)}
